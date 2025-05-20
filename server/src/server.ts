@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { database } from "./db";
+import { database } from "./prismaClient/db";
 
 const app = express();
 const PORT  = process.env.PORT
