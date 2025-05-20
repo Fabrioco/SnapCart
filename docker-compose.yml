@@ -23,9 +23,7 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ecommerce2025
-      POSTGRES_DB: ecommerce
+      DATABASE_URL: "postgresql://ecommerce:ecommerce2025@db:5432/postgres?schema=public"
     ports:
       - "5433:5432"
     volumes:
