@@ -1,13 +1,12 @@
-import express, { Request, Response } from "express";
-import { database } from "./prismaClient/db";
+import express from "express";
+import userRoutes from "./routes/userRoutes";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
-const PORT  = process.env.PORT
+const PORT = process.env.PORT;
 
-app.get("/", async (req: Request, res: Response) => {
-  const result = await database.query("SELECT NOW()")
-  res.json(result.rows)
-});
+app.use("/api", userRoutes);
 
 app.listen(PORT, () => {
   console.log("server ta rodano na porta ", PORT);
