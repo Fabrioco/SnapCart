@@ -6,12 +6,25 @@ export const getUsers = async (req: Request, res: Response) => {
   res.json(users);
 };
 
-export const addUser = async (req: Request, res: Response) => {
+export const addUser = async (req: Request, res: Response): Promise<void> => {
   const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    res.status(400).json({ error: "Todos os dados são obrigatórios" });
+    return;
+  }
   try {
     const newUser = await createUser(name, email, password);
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(400).json({ message: "Erro ao criar usuário" });
+    if (error instanceof Error) {
+      if (error.message === "Email já cadastrado") {
+        res.status(409).json({ error: error.message });
+        return;
+      }
+      res.status(400).json({ error: error.message });
+      return;
+    }
+    res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
