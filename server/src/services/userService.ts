@@ -6,6 +6,21 @@ export const getAllUsers = () => {
   return prisma.user.findMany();
 };
 
+export const getUser = async (id: number) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new Error("Usuário não encontrado");
+    }
+    return user;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao buscar os dados do usuário");
+  }
+};
+
 export const createUser = async (
   name: string,
   email: string,
