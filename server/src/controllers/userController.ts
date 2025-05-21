@@ -1,6 +1,14 @@
 import { Request, Response } from "express";
-import { createUser, getAllUsers, getOneUser } from "../services/userService";
-import { createUserSchema } from "../validators/userValidator";
+import {
+  createUser,
+  getAllUsers,
+  getOneUser,
+  updateUserData,
+} from "../services/userService";
+import {
+  createUserSchema,
+  updateUserSchema,
+} from "../validators/userValidator";
 
 export const getUsers = async (req: Request, res: Response) => {
   const users = await getAllUsers();
@@ -60,5 +68,38 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
       return;
     }
     res.status(500).json({ error: "Erro interno do servidor" });
+  }
+};
+
+export const updateUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(404).json({ error: "Id do usuário não encontrado" });
+    return;
+  }
+
+  const validation = updateUserSchema.safeParse(req.body);
+  if (!validation.success) {
+    res.status(400).json({ error: validation.error.format() });
+    return;
+  }
+
+  try {
+    const data = validation.data;
+    const updatedUser = await updateUserData(+id, data);
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message === "Usuário não encontrado") {
+        res.status(404).json(error.message);
+        return;
+      }
+      res.status(400).json(error.message);
+      return;
+    }
+    res.status(500).json("Erro interno do servidor");
   }
 };
