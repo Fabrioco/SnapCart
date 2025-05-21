@@ -24,6 +24,7 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
       }
       if (error.message === "Erro ao criar token") {
         res.status(409).json({ error: error.message });
+        return;
       }
       res.status(400).json({ error: error.message });
       return;
