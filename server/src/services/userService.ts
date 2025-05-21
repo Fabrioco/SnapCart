@@ -1,7 +1,7 @@
 import prisma from "../prismaClient/prismaClient";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { UpdateUserInput } from "../validators/userValidator";
+import { SignInInput, UpdateUserInput } from "../validators/userValidator";
 
 export const getAllUsers = () => {
   return prisma.user.findMany();
@@ -71,12 +71,41 @@ export const updateUserData = async (userId: number, data: UpdateUserInput) => {
       data,
     });
 
-    console.log(updatedUser);
     return { message: "Dados atualizado com sucesso" };
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(error.message);
     }
     throw new Error("Erro ao atualizar os dados do usuário");
+  }
+};
+
+export const signIn = async (data: SignInInput) => {
+  const user = await prisma.user.findUnique({
+    where: { email: data.email },
+  });
+
+  if (!user) {
+    throw new Error("Login inválido email");
+  }
+
+  const hashedPassword = await bcrypt.compare(data.password, user.password);
+  ("passou da senha");
+
+  if (!hashedPassword) {
+    throw new Error("Login inválido senha");
+  }
+
+  try {
+    const token = jwt.sign({ email: data.email }, "secret", {
+      expiresIn: "7d",
+    });
+
+    return { access_token: token };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao fazer login");
   }
 };
