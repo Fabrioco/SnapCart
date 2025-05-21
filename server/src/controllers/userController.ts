@@ -6,14 +6,15 @@ export const getUsers = async (req: Request, res: Response) => {
   res.json(users);
 };
 
-export const getUser = async (req: Request, res: Response) => {
-  const id = req.params;
+export const getUser = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
   if (!id) {
     res.status(404).json({ error: "Id do usuário não encontrado" });
   }
 
   try {
-    return await getOneUser(Number(id));
+    const user = await getOneUser(+id);
+    res.status(200).json(user);
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === "Usuário não encontrado") {
