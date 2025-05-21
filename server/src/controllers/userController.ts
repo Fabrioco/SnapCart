@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { createUser, getAllUsers, getOneUser } from "../services/userService";
+import { createUserSchema } from "../validators/userValidator";
 
 export const getUsers = async (req: Request, res: Response) => {
   const users = await getAllUsers();
@@ -29,7 +30,14 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const addUser = async (req: Request, res: Response): Promise<void> => {
-  const { name, email, password } = req.body;
+  const validation = createUserSchema.safeParse(req.body);
+
+  if (!validation.success) {
+    res.status(400).json({ errors: validation.error.format() });
+    return;
+  }
+
+  const { name, email, password } = validation.data;
 
   if (!name || !email || !password) {
     res.status(400).json({ error: "Todos os dados são obrigatórios" });
