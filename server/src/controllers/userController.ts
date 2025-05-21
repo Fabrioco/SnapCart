@@ -3,10 +3,12 @@ import {
   createUser,
   getAllUsers,
   getOneUser,
+  signIn,
   updateUserData,
 } from "../services/userService";
 import {
   createUserSchema,
+  signInUserSchema,
   updateUserSchema,
 } from "../validators/userValidator";
 
@@ -103,6 +105,38 @@ export const updateUser = async (
       }
       res.status(400).json(error.message);
       return;
+    }
+    res.status(500).json("Erro interno do servidor");
+  }
+};
+
+export const login = async (req: Request, res: Response) => {
+  const validation = signInUserSchema.safeParse(req.body);
+  if (!validation.success) {
+    res.status(400).json({ error: validation.error.format() });
+    return;
+  }
+
+  try {
+    const login = await signIn(validation.data);
+    console.log(login)
+    res.cookie("token", login.access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    res.status(200).json({ message: "Bem vindo de volta!" });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      if (error.message === "Erro ao fazer login") {
+        res.status(409).json({ error: error.message });
+        return;
+      }
+      if (error.message === "Login inválido") {
+        res.status(400).json({ error: error.message });
+        return;
+      }
     }
     res.status(500).json("Erro interno do servidor");
   }
