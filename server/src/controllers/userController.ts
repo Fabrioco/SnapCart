@@ -47,10 +47,6 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
 
   const { name, email, password } = validation.data;
 
-  if (!name || !email || !password) {
-    res.status(400).json({ error: "Todos os dados são obrigatórios" });
-    return;
-  }
   try {
     const newUser = await createUser(name, email, password);
     res.status(201).json(newUser);
