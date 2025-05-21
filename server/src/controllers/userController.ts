@@ -119,7 +119,6 @@ export const login = async (req: Request, res: Response) => {
 
   try {
     const login = await signIn(validation.data);
-    console.log(login)
     res.cookie("token", login.access_token, {
       httpOnly: true,
       secure: true,
