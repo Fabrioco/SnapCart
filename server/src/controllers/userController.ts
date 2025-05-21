@@ -49,6 +49,14 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
 
   try {
     const newUser = await createUser(name, email, password);
+
+    res.cookie("token", newUser.access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
     res.status(201).json(newUser);
   } catch (error) {
     if (error instanceof Error) {
