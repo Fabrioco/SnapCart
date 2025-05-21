@@ -1,6 +1,7 @@
 import prisma from "../prismaClient/prismaClient";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { UpdateUserInput } from "../validators/userValidator";
 
 export const getAllUsers = () => {
   return prisma.user.findMany();
@@ -55,5 +56,27 @@ export const createUser = async (
       throw new Error(error.message);
     }
     throw new Error("Erro desconhecido ao registrar");
+  }
+};
+
+export const updateUserData = async (userId: number, data: UpdateUserInput) => {
+  const findUser = await prisma.user.findUnique({ where: { id: userId } });
+  if (!findUser) {
+    throw new Error("Usuário não encontrado");
+  }
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data,
+    });
+
+    console.log(updatedUser);
+    return { message: "Dados atualizado com sucesso" };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao atualizar os dados do usuário");
   }
 };
