@@ -1,13 +1,15 @@
-import express, { Request, Response } from "express";
-import { database } from "./db";
+import express from "express";
+import userRoutes from "./routes/userRoutes";
+import dotenv from "dotenv";
+import cookieParser from 'cookie-parser'
 
+dotenv.config();
 const app = express();
-const PORT  = process.env.PORT
+app.use(express.json())
+app.use(cookieParser())
+const PORT = process.env.PORT;
 
-app.get("/", async (req: Request, res: Response) => {
-  const result = await database.query("SELECT NOW()")
-  res.json(result.rows)
-});
+app.use("/api", userRoutes);
 
 app.listen(PORT, () => {
   console.log("server ta rodano na porta ", PORT);
