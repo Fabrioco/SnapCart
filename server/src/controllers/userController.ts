@@ -3,6 +3,7 @@ import {
   createUser,
   getAllUsers,
   getOneUser,
+  logOut,
   signIn,
   updateUserData,
 } from "../services/userService";
@@ -138,5 +139,18 @@ export const login = async (req: Request, res: Response) => {
       }
     }
     res.status(500).json("Erro interno do servidor");
+  }
+};
+
+export const logout = (req: Request, res: Response) => {
+  try {
+    const logout = logOut(res);
+    res.status(200).json(logout);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json({ error: error.message });
+      return;
+    }
+    res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
