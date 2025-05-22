@@ -2,6 +2,7 @@ import prisma from "../prismaClient/prismaClient";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { SignInInput, UpdateUserInput } from "../validators/userValidator";
+import { Response } from "express";
 
 export const getAllUsers = () => {
   return prisma.user.findMany();
@@ -107,5 +108,17 @@ export const signIn = async (data: SignInInput) => {
       throw new Error(error.message);
     }
     throw new Error("Erro ao fazer login");
+  }
+};
+
+export const logOut = (res: Response) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ message: "Deslogado com sucesso" });
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao fazer logout");
   }
 };
