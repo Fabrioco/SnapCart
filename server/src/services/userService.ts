@@ -112,6 +112,13 @@ export const signIn = async (data: SignInInput) => {
 };
 
 export const logOut = (res: Response) => {
-  res.clearCookie("token");
-  res.status(200).json({ message: "Deslogado com sucesso" });
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ message: "Deslogado com sucesso" });
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao fazer logout");
+  }
 };
