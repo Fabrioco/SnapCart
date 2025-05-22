@@ -5,7 +5,6 @@ export const createProductSchema = z.object({
   description: z.string().min(2, "Descrição muito curta"),
   category: z.string().min(2, "Categoria inválida"),
   price: z.number().min(1, "Preço inválido"),
-  quantity: z.number().min(1, "Quantidade inválida"),
   image: z.string().min(2, "Link da imagem inválido"),
 });
 
