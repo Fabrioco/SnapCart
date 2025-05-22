@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
   createUser,
+  deleteUserData,
   getAllUsers,
   getOneUser,
   logOut,
@@ -148,6 +149,28 @@ export const logout = (req: Request, res: Response) => {
     res.status(200).json(logout);
   } catch (error) {
     if (error instanceof Error) {
+      res.status(400).json({ error: error.message });
+      return;
+    }
+    res.status(500).json({ error: "Erro interno do servidor" });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(404).json({ error: "Id do usuário nao encontrado" });
+    return;
+  }
+  try {
+    const deletedUser = await deleteUserData(+id);
+    res.status(200).json(deletedUser);
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message === "Usuário não encontrado") {
+        res.status(404).json(error.message);
+        return;
+      }
       res.status(400).json({ error: error.message });
       return;
     }

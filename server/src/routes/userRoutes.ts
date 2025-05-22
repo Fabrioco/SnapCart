@@ -17,5 +17,6 @@ router.get("/users/:id", authMiddleware, getUser);
 router.patch("/users/:id", authMiddleware, updateUser);
 router.post("/users/login", login);
 router.post("/users/logout", authMiddleware, logout);
+router.delete("/users/:id", authMiddleware, getUser);
 
 export default router;
