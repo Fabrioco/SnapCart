@@ -122,3 +122,20 @@ export const logOut = (res: Response) => {
     throw new Error("Erro ao fazer logout");
   }
 };
+
+export const deleteUser = async (id: number) => {
+  const findUser = await prisma.user.findUnique({ where: { id } });
+  if (!findUser) {
+    throw new Error("Usuário nao encontrado");
+  }
+  
+  try {
+    await prisma.user.delete({ where: { id } });
+    return { message: "Usuário deletado com sucesso" };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao deletar usuário");
+  }
+};
