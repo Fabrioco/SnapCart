@@ -1,13 +1,22 @@
 import express from "express";
 import userRoutes from "./routes/userRoutes";
 import dotenv from "dotenv";
-import cookieParser from 'cookie-parser'
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 dotenv.config();
-const app = express();
-app.use(express.json())
-app.use(cookieParser())
+
 const PORT = process.env.PORT;
+const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api", userRoutes);
 
