@@ -14,6 +14,8 @@ model User {
   email    String @unique
   password String
   role     String @default("customer")
+
+  Address Address[]
 }
 
 model Product {
@@ -23,4 +25,18 @@ model Product {
   category    String
   price       Float
   image       String
+}
+
+model Address {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  street  String
+  number  Int
+  cep     String
+  city    String
+  state   String
+  country String
+  type    String @default("home")
+
+  user User @relation(fields: [userId], references: [id])
 }

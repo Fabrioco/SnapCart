@@ -137,6 +137,18 @@ exports.Prisma.ProductScalarFieldEnum = {
   image: 'image'
 };
 
+exports.Prisma.AddressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  street: 'street',
+  number: 'number',
+  cep: 'cep',
+  city: 'city',
+  state: 'state',
+  country: 'country',
+  type: 'type'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -150,7 +162,8 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Product: 'Product'
+  Product: 'Product',
+  Address: 'Address'
 };
 
 /**
