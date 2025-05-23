@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import {
   create,
   getAll,
+  getByCategory,
   getOne,
   remove,
   update,
@@ -15,5 +16,6 @@ router.get("/products/:id", getOne);
 router.post("/products", verifyRoleAdmin, create);
 router.patch("/products/:id", verifyRoleAdmin, update);
 router.delete("/products/:id", verifyRoleAdmin, remove);
+router.get("/products/category/:category", getByCategory);
 
 export default router;
