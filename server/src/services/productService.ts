@@ -65,3 +65,11 @@ export const deleteProduct = async (id: number) => {
     throw new Error("Erro ao deletar produto");
   }
 };
+
+export const findProductsByCategory = async (category: string) => {
+  try {
+    return await prisma.product.findMany({ where: { category } });
+  } catch (error) {
+    throw new Error("Erro ao buscar produtos por categoria");
+  }
+};
