@@ -4,6 +4,7 @@ import {
   deleteProduct,
   findAllProducts,
   findOneProduct,
+  findProductsByCategory,
   updateProduct,
 } from "../services/productService";
 import {
@@ -126,6 +127,24 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
         return;
       }
       res.status(400).json({ error: "Erro ao deletar produto" });
+      return;
+    }
+    res.status(500).json({ error: "Erro interno do servidor" });
+  }
+};
+
+export const getByCategory = async (req: Request, res: Response) => {
+  const { category } = req.params;
+  if (!category) {
+    res.status(404).json({ error: "Categoria do produto não encontrada" });
+    return;
+  }
+  try {
+    const products = await findProductsByCategory(category);
+    res.status(200).json(products);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json({ error: "Erro ao buscar produtos" });
       return;
     }
     res.status(500).json({ error: "Erro interno do servidor" });
