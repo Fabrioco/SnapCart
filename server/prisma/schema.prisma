@@ -16,6 +16,7 @@ model User {
   role String @default("customer")
 
   Address Address[]
+  favorites Favorite[]
 }
 
 model Product {
@@ -25,6 +26,8 @@ model Product {
   category String
   price Float
   image String
+
+  favorites Favorite[]
 }
 
 model Address {
@@ -40,3 +43,14 @@ model Address {
 
   user User @relation(fields: [userId], references: [id]) 
 }
+
+model Favorite {
+  id Int @id @default(autoincrement())
+  userId Int
+  productId Int
+
+  user User @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([userId, productId])
+  }
