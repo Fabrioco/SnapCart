@@ -75,6 +75,7 @@ model Order {
   paymentId String
   total Float
   createdAt DateTime @default(now())
+  orderStatus String
   items OrderItem[]
 
   user User @relation(fields: [userId], references: [id])

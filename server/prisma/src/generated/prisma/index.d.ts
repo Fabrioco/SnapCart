@@ -7280,6 +7280,7 @@ export namespace Prisma {
     paymentId: string | null
     total: number | null
     createdAt: Date | null
+    orderStatus: string | null
   }
 
   export type OrderMaxAggregateOutputType = {
@@ -7288,6 +7289,7 @@ export namespace Prisma {
     paymentId: string | null
     total: number | null
     createdAt: Date | null
+    orderStatus: string | null
   }
 
   export type OrderCountAggregateOutputType = {
@@ -7296,6 +7298,7 @@ export namespace Prisma {
     paymentId: number
     total: number
     createdAt: number
+    orderStatus: number
     _all: number
   }
 
@@ -7318,6 +7321,7 @@ export namespace Prisma {
     paymentId?: true
     total?: true
     createdAt?: true
+    orderStatus?: true
   }
 
   export type OrderMaxAggregateInputType = {
@@ -7326,6 +7330,7 @@ export namespace Prisma {
     paymentId?: true
     total?: true
     createdAt?: true
+    orderStatus?: true
   }
 
   export type OrderCountAggregateInputType = {
@@ -7334,6 +7339,7 @@ export namespace Prisma {
     paymentId?: true
     total?: true
     createdAt?: true
+    orderStatus?: true
     _all?: true
   }
 
@@ -7429,6 +7435,7 @@ export namespace Prisma {
     paymentId: string
     total: number
     createdAt: Date
+    orderStatus: string
     _count: OrderCountAggregateOutputType | null
     _avg: OrderAvgAggregateOutputType | null
     _sum: OrderSumAggregateOutputType | null
@@ -7456,6 +7463,7 @@ export namespace Prisma {
     paymentId?: boolean
     total?: boolean
     createdAt?: boolean
+    orderStatus?: boolean
     items?: boolean | Order$itemsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -7467,6 +7475,7 @@ export namespace Prisma {
     paymentId?: boolean
     total?: boolean
     createdAt?: boolean
+    orderStatus?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -7476,6 +7485,7 @@ export namespace Prisma {
     paymentId?: boolean
     total?: boolean
     createdAt?: boolean
+    orderStatus?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -7485,9 +7495,10 @@ export namespace Prisma {
     paymentId?: boolean
     total?: boolean
     createdAt?: boolean
+    orderStatus?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "paymentId" | "total" | "createdAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "paymentId" | "total" | "createdAt" | "orderStatus", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | Order$itemsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7512,6 +7523,7 @@ export namespace Prisma {
       paymentId: string
       total: number
       createdAt: Date
+      orderStatus: string
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -7942,6 +7954,7 @@ export namespace Prisma {
     readonly paymentId: FieldRef<"Order", 'String'>
     readonly total: FieldRef<"Order", 'Float'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
+    readonly orderStatus: FieldRef<"Order", 'String'>
   }
     
 
@@ -9572,7 +9585,8 @@ export namespace Prisma {
     userId: 'userId',
     paymentId: 'paymentId',
     total: 'total',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    orderStatus: 'orderStatus'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -9995,6 +10009,7 @@ export namespace Prisma {
     paymentId?: StringFilter<"Order"> | string
     total?: FloatFilter<"Order"> | number
     createdAt?: DateTimeFilter<"Order"> | Date | string
+    orderStatus?: StringFilter<"Order"> | string
     items?: OrderItemListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -10005,6 +10020,7 @@ export namespace Prisma {
     paymentId?: SortOrder
     total?: SortOrder
     createdAt?: SortOrder
+    orderStatus?: SortOrder
     items?: OrderItemOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
   }
@@ -10018,6 +10034,7 @@ export namespace Prisma {
     paymentId?: StringFilter<"Order"> | string
     total?: FloatFilter<"Order"> | number
     createdAt?: DateTimeFilter<"Order"> | Date | string
+    orderStatus?: StringFilter<"Order"> | string
     items?: OrderItemListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -10028,6 +10045,7 @@ export namespace Prisma {
     paymentId?: SortOrder
     total?: SortOrder
     createdAt?: SortOrder
+    orderStatus?: SortOrder
     _count?: OrderCountOrderByAggregateInput
     _avg?: OrderAvgOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
@@ -10044,6 +10062,7 @@ export namespace Prisma {
     paymentId?: StringWithAggregatesFilter<"Order"> | string
     total?: FloatWithAggregatesFilter<"Order"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    orderStatus?: StringWithAggregatesFilter<"Order"> | string
   }
 
   export type OrderItemWhereInput = {
@@ -10413,6 +10432,7 @@ export namespace Prisma {
     paymentId: string
     total: number
     createdAt?: Date | string
+    orderStatus: string
     items?: OrderItemCreateNestedManyWithoutOrderInput
     user: UserCreateNestedOneWithoutOrdersInput
   }
@@ -10423,6 +10443,7 @@ export namespace Prisma {
     paymentId: string
     total: number
     createdAt?: Date | string
+    orderStatus: string
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -10430,6 +10451,7 @@ export namespace Prisma {
     paymentId?: StringFieldUpdateOperationsInput | string
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderStatus?: StringFieldUpdateOperationsInput | string
     items?: OrderItemUpdateManyWithoutOrderNestedInput
     user?: UserUpdateOneRequiredWithoutOrdersNestedInput
   }
@@ -10440,6 +10462,7 @@ export namespace Prisma {
     paymentId?: StringFieldUpdateOperationsInput | string
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderStatus?: StringFieldUpdateOperationsInput | string
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -10449,12 +10472,14 @@ export namespace Prisma {
     paymentId: string
     total: number
     createdAt?: Date | string
+    orderStatus: string
   }
 
   export type OrderUpdateManyMutationInput = {
     paymentId?: StringFieldUpdateOperationsInput | string
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderStatus?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderUncheckedUpdateManyInput = {
@@ -10463,6 +10488,7 @@ export namespace Prisma {
     paymentId?: StringFieldUpdateOperationsInput | string
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderStatus?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderItemCreateInput = {
@@ -10867,6 +10893,7 @@ export namespace Prisma {
     paymentId?: SortOrder
     total?: SortOrder
     createdAt?: SortOrder
+    orderStatus?: SortOrder
   }
 
   export type OrderAvgOrderByAggregateInput = {
@@ -10881,6 +10908,7 @@ export namespace Prisma {
     paymentId?: SortOrder
     total?: SortOrder
     createdAt?: SortOrder
+    orderStatus?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
@@ -10889,6 +10917,7 @@ export namespace Prisma {
     paymentId?: SortOrder
     total?: SortOrder
     createdAt?: SortOrder
+    orderStatus?: SortOrder
   }
 
   export type OrderSumOrderByAggregateInput = {
@@ -11613,6 +11642,7 @@ export namespace Prisma {
     paymentId: string
     total: number
     createdAt?: Date | string
+    orderStatus: string
     items?: OrderItemCreateNestedManyWithoutOrderInput
   }
 
@@ -11621,6 +11651,7 @@ export namespace Prisma {
     paymentId: string
     total: number
     createdAt?: Date | string
+    orderStatus: string
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -11741,6 +11772,7 @@ export namespace Prisma {
     paymentId?: StringFilter<"Order"> | string
     total?: FloatFilter<"Order"> | number
     createdAt?: DateTimeFilter<"Order"> | Date | string
+    orderStatus?: StringFilter<"Order"> | string
   }
 
   export type FavoriteCreateWithoutProductInput = {
@@ -12256,6 +12288,7 @@ export namespace Prisma {
     paymentId: string
     total: number
     createdAt?: Date | string
+    orderStatus: string
     user: UserCreateNestedOneWithoutOrdersInput
   }
 
@@ -12265,6 +12298,7 @@ export namespace Prisma {
     paymentId: string
     total: number
     createdAt?: Date | string
+    orderStatus: string
   }
 
   export type OrderCreateOrConnectWithoutItemsInput = {
@@ -12313,6 +12347,7 @@ export namespace Prisma {
     paymentId?: StringFieldUpdateOperationsInput | string
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderStatus?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutOrdersNestedInput
   }
 
@@ -12322,6 +12357,7 @@ export namespace Prisma {
     paymentId?: StringFieldUpdateOperationsInput | string
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderStatus?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductUpsertWithoutOrderItemsInput = {
@@ -12383,6 +12419,7 @@ export namespace Prisma {
     paymentId: string
     total: number
     createdAt?: Date | string
+    orderStatus: string
   }
 
   export type AddressUpdateWithoutUserInput = {
@@ -12452,6 +12489,7 @@ export namespace Prisma {
     paymentId?: StringFieldUpdateOperationsInput | string
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderStatus?: StringFieldUpdateOperationsInput | string
     items?: OrderItemUpdateManyWithoutOrderNestedInput
   }
 
@@ -12460,6 +12498,7 @@ export namespace Prisma {
     paymentId?: StringFieldUpdateOperationsInput | string
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderStatus?: StringFieldUpdateOperationsInput | string
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -12468,6 +12507,7 @@ export namespace Prisma {
     paymentId?: StringFieldUpdateOperationsInput | string
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderStatus?: StringFieldUpdateOperationsInput | string
   }
 
   export type FavoriteCreateManyProductInput = {

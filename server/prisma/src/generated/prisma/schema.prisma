@@ -70,12 +70,13 @@ model CartItem {
 }
 
 model Order {
-  id        Int         @id @default(autoincrement())
-  userId    Int
-  paymentId String
-  total     Float
-  createdAt DateTime    @default(now())
-  items     OrderItem[]
+  id          Int         @id @default(autoincrement())
+  userId      Int
+  paymentId   String
+  total       Float
+  createdAt   DateTime    @default(now())
+  orderStatus String
+  items       OrderItem[]
 
   user User @relation(fields: [userId], references: [id])
 }
