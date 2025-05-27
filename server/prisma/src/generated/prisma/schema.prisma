@@ -17,6 +17,8 @@ model User {
 
   Address   Address[]
   favorites Favorite[]
+  cartItems CartItem[]
+  orders    Order[]
 }
 
 model Product {
@@ -27,7 +29,9 @@ model Product {
   price       Float
   image       String
 
-  favorites Favorite[]
+  favorites  Favorite[]
+  cartItems  CartItem[]
+  orderItems OrderItem[]
 }
 
 model Address {
@@ -53,4 +57,36 @@ model Favorite {
   product Product @relation(fields: [productId], references: [id])
 
   @@unique([userId, productId])
+}
+
+model CartItem {
+  id        Int @id @default(autoincrement())
+  userId    Int
+  productId Int
+  quantity  Int
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Order {
+  id        Int         @id @default(autoincrement())
+  userId    Int
+  paymentId String
+  total     Float
+  createdAt DateTime    @default(now())
+  items     OrderItem[]
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model OrderItem {
+  id        Int   @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  price     Float
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }
