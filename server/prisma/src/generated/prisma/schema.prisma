@@ -72,6 +72,7 @@ model CartItem {
 model Order {
   id        Int         @id @default(autoincrement())
   userId    Int
+  paymentId String
   total     Float
   createdAt DateTime    @default(now())
   items     OrderItem[]

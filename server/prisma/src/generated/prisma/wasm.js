@@ -165,6 +165,7 @@ exports.Prisma.CartItemScalarFieldEnum = {
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  paymentId: 'paymentId',
   total: 'total',
   createdAt: 'createdAt'
 };
