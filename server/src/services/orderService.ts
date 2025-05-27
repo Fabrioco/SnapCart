@@ -23,6 +23,7 @@ export const createOrderFromCartService = async (
         user: { connect: { id: userId } },
         paymentId,
         total,
+        orderStatus: "Pagamento pendente",
         items: {
           create: cartItems.map((item) => ({
             productId: item.productId,
@@ -48,7 +49,7 @@ export const findAllOrdersService = async (userId: number) => {
 
     const orders = await prisma.order.findMany({
       where: { userId },
-      include: { items: true }, 
+      include: { items: true },
     });
 
     if (!orders.length) {
