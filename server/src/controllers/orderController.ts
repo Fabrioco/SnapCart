@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import {
-  createOrderFromCartService,
+  finalizePurchaseService,
   findAllOrdersService,
   findOneOrderService,
 } from "../services/orderService";
@@ -13,7 +13,6 @@ export const createOrderFromCartController = async (
   res: Response
 ) => {
   try {
-    const userId = getIdUser(res);
     const { paymentId } = req.body;
 
     if (!paymentId) {
@@ -30,7 +29,7 @@ export const createOrderFromCartController = async (
       throw new Error("Pedido já cadastrado");
     }
 
-    const result = await createOrderFromCartService(+userId, paymentId);
+    const result = await finalizePurchaseService(paymentId);
     res.status(201).json(result);
   } catch (error: unknown) {
     if (error instanceof Error) {
