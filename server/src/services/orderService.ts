@@ -39,12 +39,17 @@ export const finalizePurchaseService = async (sessionId: string) => {
       (sum, item) => sum + item.quantity * item.product.price,
       0
     );
+    if (!session.metadata) {
+      throw new Error("Dados não encontrados");
+    }
+
 
     const order = await prisma.order.create({
       data: {
-        userId,
+        userId:Number(session.metadata.userId),
         paymentId: sessionId,
         total,
+        addressId: Number(session.metadata.address),
         orderStatus: "Pago",
         items: {
           create: cartItems.map((item) => ({
