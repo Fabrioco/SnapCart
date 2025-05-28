@@ -48,11 +48,10 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
     res.status(400).json({ errors: validation.error.format() });
     return;
   }
-
-  const { name, email, password } = validation.data;
+  const data = validation.data;
 
   try {
-    const newUser = await createUser(name, email, password);
+    const newUser = await createUser(data);
 
     res.cookie("token", newUser.access_token, {
       httpOnly: true,
