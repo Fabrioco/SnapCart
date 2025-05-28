@@ -1,7 +1,11 @@
 import prisma from "../prismaClient/prismaClient";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { SignInInput, UpdateUserInput } from "../validators/userValidator";
+import {
+  CreateUserInput,
+  SignInInput,
+  UpdateUserInput,
+} from "../validators/userValidator";
 import { Response } from "express";
 
 export const getAllUsers = () => {
@@ -23,27 +27,32 @@ export const getOneUser = async (id: number) => {
   }
 };
 
-export const createUser = async (
-  name: string,
-  email: string,
-  password: string
-) => {
+export const createUser = async (data: CreateUserInput) => {
   try {
-    const findUser = await prisma.user.findUnique({ where: { email } });
+    const findUser = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
     if (findUser) {
       throw new Error("Email já cadastrado");
     }
 
-    const hashPassword = await bcrypt.hash(password, 10);
-    password = hashPassword;
+    const hashPassword = await bcrypt.hash(data.password, 10);
+    data.password = hashPassword;
 
-    const token = jwt.sign({ email }, "secret", { expiresIn: "7d" });
+    const token = jwt.sign({ email: data.email }, "secret", {
+      expiresIn: "7d",
+    });
     if (!token) {
       throw new Error("Erro ao criar token");
     }
 
     const userCreated = await prisma.user.create({
-      data: { name, email, password },
+      data: {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        number: data.number,
+      },
     });
 
     const { password: pass, ...userWithoutPassword } = userCreated;
