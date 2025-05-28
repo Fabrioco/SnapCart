@@ -1,17 +1,39 @@
 import { stripe } from "../config/stripe";
+import { transporterMail } from "../config/transporter";
 import prisma from "../prismaClient/prismaClient";
 
-export const createOrderFromCartService = async (
-  userId: number,
-  paymentId: string
-) => {
+export const finalizePurchaseService = async (sessionId: string) => {
   try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+    if (!session || !session.payment_intent) {
+      throw new Error("Sessão inválida ou sem Payment Intent.");
+    }
+
+    const payment = await stripe.paymentIntents.retrieve(
+      session.payment_intent as string
+    );
+
+    if (payment.status !== "succeeded") {
+      throw new Error("Pagamento não foi aprovado.");
+    }
+
+    const id = session.metadata?.userId;
+
+    const userId = Number(id);
+
+    if (!userId) {
+      throw new Error("Usuário nao encontrado.");
+    }
+
     const cartItems = await prisma.cartItem.findMany({
       where: { userId },
       include: { product: true },
     });
 
-    if (!cartItems.length) throw new Error("Carrinho está vazio");
+    if (!cartItems.length) {
+      throw new Error("Carrinho está vazio.");
+    }
 
     const total = cartItems.reduce(
       (sum, item) => sum + item.quantity * item.product.price,
@@ -20,9 +42,10 @@ export const createOrderFromCartService = async (
 
     const order = await prisma.order.create({
       data: {
-        user: { connect: { id: userId } },
-        paymentId,
+        userId,
+        paymentId: sessionId,
         total,
+        orderStatus: "Pago",
         items: {
           create: cartItems.map((item) => ({
             productId: item.productId,
@@ -33,12 +56,28 @@ export const createOrderFromCartService = async (
       },
     });
 
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+
+    if (user && user.email) {
+      const mailOptions = {
+        from: "ecommerce fabriciooliveiralopes50@gmail.com", // quem está enviando
+        to: user.email, // destinatário
+        subject: `Pedido #${order.paymentId} confirmado!`, // assunto do e-mail
+        text: `Olá, ${user.name}! Seu pedido foi confirmado. Total: R$ ${total.toFixed(2).replace(".", ",")}`,
+        html: `<p>Olá, <strong>${user.name}</strong>! Seu pedido foi confirmado.</p><p>Total: <strong>R$ ${total.toFixed(2).replace(".", ",")}</strong></p>`,
+      };
+
+      await transporterMail.sendMail(mailOptions);
+    }
+
     await prisma.cartItem.deleteMany({ where: { userId } });
 
-    return { message: "Pedido criado com sucesso", order };
-  } catch (error: unknown) {
-    if (error instanceof Error) throw new Error(error.message);
-    throw new Error("Erro ao finalizar compra");
+    return { success: true, order };
+  } catch (error) {
+    console.error("Erro ao finalizar compra:", error);
+    throw new Error(
+      error instanceof Error ? error.message : "Erro ao finalizar compra"
+    );
   }
 };
 
@@ -48,7 +87,7 @@ export const findAllOrdersService = async (userId: number) => {
 
     const orders = await prisma.order.findMany({
       where: { userId },
-      include: { items: true }, 
+      include: { items: true },
     });
 
     if (!orders.length) {

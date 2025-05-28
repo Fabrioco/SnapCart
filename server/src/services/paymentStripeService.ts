@@ -1,6 +1,5 @@
 import { stripe } from "../config/stripe";
 import prisma from "../prismaClient/prismaClient";
-import { createOrderFromCartService } from "./orderService";
 
 export const createStripeCardPayment = async (userId: number) => {
   try {
@@ -9,7 +8,9 @@ export const createStripeCardPayment = async (userId: number) => {
       include: { product: true },
     });
 
-    if (!cartItems.length) throw new Error("Carrinho vazio");
+    if (!cartItems.length) {
+      throw new Error("Carrinho vazio");
+    }
 
     const line_items = cartItems.map((item) => ({
       price_data: {
@@ -31,8 +32,6 @@ export const createStripeCardPayment = async (userId: number) => {
       cancel_url: "http://localhost:3000/payment/cancel",
       metadata: { userId: String(userId) },
     });
-
-    await createOrderFromCartService(userId, session.id);
 
     return { url: session.url };
   } catch (error: unknown) {

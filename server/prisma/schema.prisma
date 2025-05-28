@@ -11,6 +11,7 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
   name String
+  number String
   email String @unique
   password String
   role String @default("customer")
@@ -75,6 +76,7 @@ model Order {
   paymentId String
   total Float
   createdAt DateTime @default(now())
+  orderStatus String
   items OrderItem[]
 
   user User @relation(fields: [userId], references: [id])
