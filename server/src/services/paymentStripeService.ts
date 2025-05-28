@@ -1,7 +1,10 @@
 import { stripe } from "../config/stripe";
 import prisma from "../prismaClient/prismaClient";
 
-export const createStripeCardPayment = async (userId: number) => {
+export const createStripeCardPayment = async (
+  userId: number,
+  addressId: number
+) => {
   try {
     const cartItems = await prisma.cartItem.findMany({
       where: { userId },
@@ -10,6 +13,20 @@ export const createStripeCardPayment = async (userId: number) => {
 
     if (!cartItems.length) {
       throw new Error("Carrinho vazio");
+    }
+
+    if (!addressId) {
+      throw new Error("Endereço é necessáro antes de finalizar a compra");
+    }
+
+    const address = await prisma.address.findUnique({
+      where: {
+        id: addressId,
+      },
+    });
+
+    if (!address) {
+      throw new Error("Endereço não encontrado");
     }
 
     const line_items = cartItems.map((item) => ({
@@ -30,7 +47,7 @@ export const createStripeCardPayment = async (userId: number) => {
       success_url:
         "http://localhost:3000/payment/success?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "http://localhost:3000/payment/cancel",
-      metadata: { userId: String(userId) },
+      metadata: { userId: String(userId), address: String(address.id) },
     });
 
     return { url: session.url };

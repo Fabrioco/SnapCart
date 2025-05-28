@@ -47,6 +47,7 @@ model Address {
   type String @default("home")
 
   user User @relation(fields: [userId], references: [id]) 
+  order Order[]
 }
 
 model Favorite {
@@ -75,11 +76,13 @@ model Order {
   userId Int
   paymentId String
   total Float
+  addressId Int
   createdAt DateTime @default(now())
   orderStatus String
   items OrderItem[]
 
   user User @relation(fields: [userId], references: [id])
+  address Address @relation(fields:[addressId], references:[id])
 }
 
 model OrderItem {

@@ -1,10 +1,6 @@
 import { Request, Response } from "express";
-import {
-  createStripeCardPayment,
-  
-} from "../services/paymentStripeService";
+import { createStripeCardPayment } from "../services/paymentStripeService";
 import { getIdUser } from "../utils/getIdUser";
-
 
 export const createStripeCardPaymentController = async (
   req: Request,
@@ -12,7 +8,8 @@ export const createStripeCardPaymentController = async (
 ) => {
   try {
     const userId = await getIdUser(res);
-    const { url } = await createStripeCardPayment(userId);
+    const { addressId } = req.body;
+    const { url } = await createStripeCardPayment(userId, addressId);
 
     res.json({ url });
   } catch (error: unknown) {
