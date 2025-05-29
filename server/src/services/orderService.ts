@@ -43,10 +43,9 @@ export const finalizePurchaseService = async (sessionId: string) => {
       throw new Error("Dados não encontrados");
     }
 
-
     const order = await prisma.order.create({
       data: {
-        userId:Number(session.metadata.userId),
+        userId: Number(session.metadata.userId),
         paymentId: sessionId,
         total,
         addressId: Number(session.metadata.address),
@@ -124,3 +123,17 @@ export const findOneOrderService = async (sessionId: string) => {
     throw new Error("Erro ao buscar pedidos");
   }
 };
+
+export const updateStatusOrderService = async (id: number, status: string) => {
+  try {
+    const order = await prisma.order.update({
+      where: { id },
+      data: { orderStatus: status },
+    });
+    return order;
+  } catch (error: unknown) {
+    if (error instanceof Error) throw new Error(error.message);
+    throw new Error("Erro ao atualizar status do pedido");
+  }
+};
+
