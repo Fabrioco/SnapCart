@@ -3,6 +3,7 @@ import {
   finalizePurchaseService,
   findAllOrdersService,
   findOneOrderService,
+  updateStatusOrderService,
 } from "../services/orderService";
 import { getIdUser } from "../utils/getIdUser";
 import prisma from "../prismaClient/prismaClient";
@@ -76,3 +77,26 @@ export const findOneOrderController = async (req: Request, res: Response) => {
     }
   }
 };
+
+export const updateStatusOrderController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id, status } = req.body;
+
+    if (!id || !status) {
+      throw new Error("Id e status são necessários");
+    }
+
+    const updatedOrder = await updateStatusOrderService(id, status);
+    res.status(200).json(updatedOrder);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(400).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "Erro ao atualizar status do pedido" });
+    }
+  }
+};
+
