@@ -3,13 +3,14 @@ import {
   createOrderFromCartController,
   findAllOrdersController,
   findOneOrderController,
+  updateStatusOrderController,
 } from "../controllers/orderController";
-import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = express.Router();
 
-router.post("/orders", authMiddleware, createOrderFromCartController);
-router.get("/orders", authMiddleware, findAllOrdersController);
-router.get("/orders/:id", authMiddleware, findOneOrderController);
+router.post("/orders", createOrderFromCartController);
+router.get("/orders", findAllOrdersController);
+router.get("/orders/:id", findOneOrderController);
+router.patch("/orders/:id", updateStatusOrderController);
 
 export default router;
