@@ -1,10 +1,12 @@
+import { AuthLinks } from "@/ui/auth/login/authLinks";
 import { LoginForm } from "@/ui/auth/login/form";
 
 export default function LoginPage() {
   return (
-    <main className="flex flex-col gap-4 w-full h-full items-center justify-center">
-      <h1 className="text-2xl font-semibold">Bem vindo de volta!</h1>
+    <main className="flex flex-col items-center justify-center min-h-screen">
+      <h1 className="text-2xl font-semibold w-fit">Bem vindo de volta!</h1>
       <LoginForm />
+      <AuthLinks />
     </main>
   );
 }
