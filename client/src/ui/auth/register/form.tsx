@@ -12,7 +12,14 @@ export function RegisterForm() {
     setEmail,
     setPassword,
     handleRegister,
+    formatPhone,
   } = useRegisterStore();
+
+  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedPhone = formatPhone(e.target.value);
+    setNumberPhone(formattedPhone);
+  };
+
   return (
     <form
       onSubmit={handleRegister}
@@ -39,9 +46,10 @@ export function RegisterForm() {
           type="text"
           id="numberPhone"
           name="numberPhone"
-          onChange={(e) => setNumberPhone(e.target.value)}
+          onChange={handleChangePhone}
           value={numberPhone}
           className="px-2 py-1 rounded border border-solid border-gray-500"
+          maxLength={15}
         />
       </div>
       <div className="flex flex-col gap-2">
