@@ -1,1 +1,31 @@
 @import "tailwindcss";
+
+[data-theme="dark"] {
+  --bg-color: #000;
+  --text-color: #fff;
+}
+
+[data-theme="light"] {
+  --bg-color: #fff;
+  --text-color: #000;
+}
+
+[data-theme="light"] {
+  --bg-container-color: #000;
+  --text-container-color: #fff;
+}
+
+[data-theme="dark"] {
+  --bg-container-color: #fff;
+  --text-container-color: #000;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.bg_accessibility {
+  background-color: var(--bg-container-color);
+  color: var(--text-container-color);
+}

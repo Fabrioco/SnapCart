@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,10 +23,10 @@ export const metadata: Metadata = {
     locale: "pt-BR",
     type: "website",
   },
-  robots:{
+  robots: {
     index: true,
-    follow: true
-  }
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -34,11 +35,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <body
-        className={`${inter.className} antialiased bg-white dark:bg-black text-black dark:text-white flex flex-col min-h-screen w-screen items-center justify-center`}
-      >
-        {children}
+    <html lang="pt-BR" suppressHydrationWarning>
+      <body className={`${inter.className} antialiased `}>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
