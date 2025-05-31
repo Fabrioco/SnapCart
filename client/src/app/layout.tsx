@@ -38,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased `}>
+      <body className={`${inter.className} antialiased min-h-screen flex flex-col items-center justify-between w-screen`}>
         <ThemeProvider>
           <Header />
           {children}
