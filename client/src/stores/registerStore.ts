@@ -51,6 +51,7 @@ export const useRegisterStore = create<RegisterState>()(
             },
             body: JSON.stringify({
               name: get().name,
+              number: get().numberPhone,
               email: get().email,
               password: get().password,
             }),
