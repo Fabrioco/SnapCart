@@ -18,7 +18,7 @@ export function LoginForm() {
   return (
     <form
       onSubmit={(e) => handleLogin(e)}
-      className="flex flex-col gap-4 bg-black text-white p-4 rounded-md border border-solid border-gray-500 shadow-lg dark:border-gray-600 dark:bg-white dark:text-black w-11/12 lg:w-1/3"
+      className="flex flex-col gap-4 bg-white text-black p-4 rounded-md border border-solid border-gray-500 shadow-lg dark:border-gray-600  w-11/12 lg:w-1/3"
     >
       <div className="flex flex-col gap-2">
         <label htmlFor="email" className="text-lg">
