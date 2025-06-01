@@ -148,3 +148,24 @@ export const deleteUserData = async (id: number) => {
     throw new Error("Erro ao deletar usuário");
   }
 };
+
+export const forgotPasswordService = async (email:string )=> {
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      throw new Error("Usuário nao encontrado");
+    }
+    const token = jwt.sign({ email: user.email }, "secret", {
+      expiresIn: "7d",
+    });
+    if (!token) {
+      throw new Error("Erro ao criar token");
+    }
+    return { access_token: token };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao buscar usuário");
+  }
+}
