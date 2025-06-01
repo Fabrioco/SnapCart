@@ -184,7 +184,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/fabricio/fullstack/ecommerce/server/prisma/src/generated/prisma",
+      "value": "/home/fabricio/fullstack/SnapCart/server/prisma/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -198,12 +198,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/fabricio/fullstack/ecommerce/server/prisma/schema.prisma",
+    "sourceFilePath": "/home/fabricio/fullstack/SnapCart/server/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../..",
   "clientVersion": "6.8.2",
@@ -212,6 +211,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
