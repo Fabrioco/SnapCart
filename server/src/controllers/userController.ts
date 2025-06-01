@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createUser,
   deleteUserData,
+  forgotPasswordService,
   getAllUsers,
   getOneUser,
   logOut,
@@ -176,3 +177,17 @@ export const deleteUser = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body
+    const token = await forgotPasswordService(email);
+    res.status(200).json(token);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json({ error: error.message });
+      return;
+    }
+    res.status(500).json({ error: "Erro interno do servidor" });
+  }
+}
