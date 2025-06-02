@@ -153,7 +153,7 @@ export const forgotPasswordService = async (email:string )=> {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      throw new Error("Usuário nao encontrado");
+      throw new Error("Usuário não encontrado");
     }
     const token = jwt.sign({ email: user.email }, "secret", {
       expiresIn: "7d",
@@ -162,6 +162,27 @@ export const forgotPasswordService = async (email:string )=> {
       throw new Error("Erro ao criar token");
     }
     return { access_token: token };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao buscar usuário");
+  }
+}
+
+export const resetPasswordService = async (token:string, password:string) => {
+  try {
+    const payload = jwt.verify(token, "secret") as { email: string };
+    const user = await prisma.user.findUnique({ where: { email: payload.email } });
+    if (!user) {
+      throw new Error("Usuário não encontrado");
+    }
+    const hashPassword = await bcrypt.hash(password, 10);
+    await prisma.user.update({
+      where: { email: payload.email },
+      data: { password: hashPassword },
+    });
+    return { message: "Senha atualizada com sucesso" };
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);
