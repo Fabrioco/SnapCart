@@ -195,7 +195,8 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
 export const resetPassword = async (req: Request, res: Response) => {
   try {
-    const { token, password } = req.body;
+    const { token } = req.params
+    const { password } = req.body;
     const resetPassword = await resetPasswordService(token, password);
     res.status(200).json(resetPassword);
   } catch (error) {

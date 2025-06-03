@@ -149,7 +149,7 @@ export const deleteUserData = async (id: number) => {
   }
 };
 
-export const forgotPasswordService = async (email:string )=> {
+export const forgotPasswordService = async (email: string) => {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
@@ -168,12 +168,14 @@ export const forgotPasswordService = async (email:string )=> {
     }
     throw new Error("Erro ao buscar usuário");
   }
-}
+};
 
-export const resetPasswordService = async (token:string, password:string) => {
+export const resetPasswordService = async (token: string, password: string) => {
   try {
     const payload = jwt.verify(token, "secret") as { email: string };
-    const user = await prisma.user.findUnique({ where: { email: payload.email } });
+    const user = await prisma.user.findUnique({
+      where: { email: payload.email },
+    });
     if (!user) {
       throw new Error("Usuário não encontrado");
     }
@@ -189,4 +191,4 @@ export const resetPasswordService = async (token:string, password:string) => {
     }
     throw new Error("Erro ao buscar usuário");
   }
-}
+};
