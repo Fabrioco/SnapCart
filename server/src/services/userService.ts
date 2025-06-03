@@ -156,7 +156,7 @@ export const forgotPasswordService = async (email: string) => {
       throw new Error("Usuário não encontrado");
     }
     const token = jwt.sign({ email: user.email }, "secret", {
-      expiresIn: "7d",
+      expiresIn: "1h",
     });
     if (!token) {
       throw new Error("Erro ao criar token");
@@ -173,6 +173,9 @@ export const forgotPasswordService = async (email: string) => {
 export const resetPasswordService = async (token: string, password: string) => {
   try {
     const payload = jwt.verify(token, "secret") as { email: string };
+    if (!payload.email) {
+      throw new Error("Token expirado");
+    }
     const user = await prisma.user.findUnique({
       where: { email: payload.email },
     });
