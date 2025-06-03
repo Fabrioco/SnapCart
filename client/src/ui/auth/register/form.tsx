@@ -13,6 +13,7 @@ export function RegisterForm() {
     setPassword,
     handleRegister,
     formatPhone,
+    error,
   } = useRegisterStore();
 
   const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +26,7 @@ export function RegisterForm() {
       onSubmit={handleRegister}
       className="flex flex-col gap-4 bg-white text-black p-4 rounded-md border border-solid border-gray-500 shadow-lg w-11/12 lg:w-1/3"
     >
+      {error && <p className="text-red-500">{error}</p>}
       <div className="flex flex-col gap-2">
         <label htmlFor="name" className="text-lg">
           Nome

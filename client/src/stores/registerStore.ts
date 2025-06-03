@@ -58,7 +58,12 @@ export const useRegisterStore = create<RegisterState>()(
           });
 
           const result = await response.json();
-          console.log(result);
+          if (result.error) {
+            set({ error: result.error });
+            return;
+          }
+
+          window.location.href = "/";
         } catch (error) {
           console.error(error);
           set({ error: "Erro ao criar usuário" });
