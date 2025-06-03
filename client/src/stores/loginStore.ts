@@ -15,70 +15,79 @@ interface LoginState {
 }
 
 export const useLoginStore = create<LoginState>()(
-  persist((set, get) => ({
-    email: "",
-    password: "",
-    loading: false,
-    error: "",
+  persist(
+    (set, get) => ({
+      email: "",
+      password: "",
+      loading: false,
+      error: "",
 
-    setEmail: (email: string) => set({ email }),
-    setPassword: (password: string) => set({ password }),
+      setEmail: (email: string) => set({ email }),
+      setPassword: (password: string) => set({ password }),
 
-    clearCredentials: () => {
-      set({ email: "", password: "" });
-    },
+      clearCredentials: () => {
+        set({ email: "", password: "" });
+      },
 
-    validateFields: () => {
-      const { email, password } = get();
-      if (!email || !password) {
-        set({ error: "Preencha todos os campos" });
-        return false;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        set({ error: "Email inválido" });
-        return false;
-      }
-      set({ error: "" });
-      return true;
-    },
+      validateFields: () => {
+        const { email, password } = get();
+        if (!email || !password) {
+          set({ error: "Preencha todos os campos" });
+          return false;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          set({ error: "Email inválido" });
+          return false;
+        }
+        set({ error: "" });
+        return true;
+      },
 
-    handleLogin: async (e: React.FormEvent) => {
-      e.preventDefault();
-      const validate = get().validateFields();
-      if (!validate) {
-        return;
-      }
+      handleLogin: async (e: React.FormEvent) => {
+        e.preventDefault();
+        const validate = get().validateFields();
+        if (!validate) {
+          return;
+        }
 
-      try {
-        set({ loading: true, error: "" });
+        try {
+          set({ loading: true, error: "" });
 
-        const response = await fetch(
-          "http://localhost:5000/api/users/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: get().email,
-              password: get().password,
-            }),
+          const response = await fetch(
+            "http://localhost:5000/api/users/login",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: get().email,
+                password: get().password,
+              }),
+            }
+          );
+
+          const result = await response.json();
+
+          if (result === "Erro interno do servidor") {
+            set({ error: result });
+            return;
           }
-        );
 
-        const result = await response.json();
-        console.log(result);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        set({ loading: false });
-      }
-    },
-  }),{
-    name: "login-store",
-    partialize: (state) => ({
-      email: state.email,
-      password: state.password
-    })
-  })
+          window.location.href = "/";
+        } catch (error) {
+          console.error(error);
+        } finally {
+          set({ loading: false });
+        }
+      },
+    }),
+    {
+      name: "login-store",
+      partialize: (state) => ({
+        email: state.email,
+        password: state.password,
+      }),
+    }
+  )
 );
