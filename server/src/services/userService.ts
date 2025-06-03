@@ -148,3 +148,50 @@ export const deleteUserData = async (id: number) => {
     throw new Error("Erro ao deletar usuário");
   }
 };
+
+export const forgotPasswordService = async (email: string) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      throw new Error("Usuário não encontrado");
+    }
+    const token = jwt.sign({ email: user.email }, "secret", {
+      expiresIn: "1h",
+    });
+    if (!token) {
+      throw new Error("Erro ao criar token");
+    }
+    return { access_token: token };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao buscar usuário");
+  }
+};
+
+export const resetPasswordService = async (token: string, password: string) => {
+  try {
+    const payload = jwt.verify(token, "secret") as { email: string };
+    if (!payload.email) {
+      throw new Error("Token expirado");
+    }
+    const user = await prisma.user.findUnique({
+      where: { email: payload.email },
+    });
+    if (!user) {
+      throw new Error("Usuário não encontrado");
+    }
+    const hashPassword = await bcrypt.hash(password, 10);
+    await prisma.user.update({
+      where: { email: payload.email },
+      data: { password: hashPassword },
+    });
+    return { message: "Senha atualizada com sucesso" };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao buscar usuário");
+  }
+};

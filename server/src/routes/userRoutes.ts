@@ -6,6 +6,8 @@ import {
   updateUser,
   login,
   logout,
+  forgotPassword,
+  resetPassword,
 } from "../controllers/userController";
 import { authMiddleware } from "../middlewares/authMiddleware";
 
@@ -18,5 +20,7 @@ router.patch("/users/:id", authMiddleware, updateUser);
 router.post("/users/login", login);
 router.post("/users/logout", authMiddleware, logout);
 router.delete("/users/:id", authMiddleware, getUser);
+router.post("/users/forgot-password", forgotPassword);
+router.patch("/users/reset-password/:token", resetPassword);
 
 export default router;
