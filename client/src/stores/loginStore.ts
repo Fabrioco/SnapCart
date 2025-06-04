@@ -60,6 +60,7 @@ export const useLoginStore = create<LoginState>()(
               headers: {
                 "Content-Type": "application/json",
               },
+              credentials: "include",
               body: JSON.stringify({
                 email: get().email,
                 password: get().password,
@@ -73,7 +74,6 @@ export const useLoginStore = create<LoginState>()(
             set({ error: result });
             return;
           }
-
           window.location.href = "/";
         } catch (error) {
           console.error(error);

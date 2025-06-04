@@ -12,9 +12,11 @@ export const getAllUsers = () => {
   return prisma.user.findMany();
 };
 
-export const getOneUser = async (id: number) => {
+export const getOneUser = async (email: string) => {
   try {
-    const user = await prisma.user.findUnique({ where: { id } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
     if (!user) {
       throw new Error("Usuário não encontrado");
     }
