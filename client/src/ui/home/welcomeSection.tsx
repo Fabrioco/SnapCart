@@ -1,11 +1,13 @@
 "use client";
 import { useInView, motion } from "framer-motion";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
 
 export function WelcomeSection() {
-  const [isMobile, setIsMobile] = React.useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const router = useRouter();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -55,9 +57,16 @@ export function WelcomeSection() {
       <motion.button
         className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 md:self-end md:mx-auto md:w-fit"
         initial={isMobile ? { x: 200, opacity: 0 } : { x: -200, opacity: 0 }}
-        animate={homeButtonInView ? { x: 0, opacity: 1 } : { x: 200 }}
+        animate={
+          homeButtonInView
+            ? { x: 0, opacity: 1 }
+            : isMobile
+            ? { x: -200, opacity: 0 }
+            : { x: 200, opacity: 0 }
+        }
         transition={{ duration: 0.5, delay: 1 }}
         ref={homeButtonRef}
+        onClick={() => router.push("/produtos")}
       >
         Comece a comprar
       </motion.button>
