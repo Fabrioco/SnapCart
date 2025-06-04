@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ModalAddAddress } from "./modals/addressAddModal";
 import { ModalEditAddress } from "./modals/addressEditModal";
 import { AddressType } from "@/types/addressType";
+import { AddressRemoveModal } from "./modals/addressRemoveModal";
 
 export function AddressSection() {
   const [isOpen, setIsOpen] = useState<{
@@ -24,13 +25,18 @@ export function AddressSection() {
         "Content-Type": "application/json",
       },
     });
+
+    if (!response.ok) {
+      throw new Error("Erro ao buscar endereço");
+    }
+    
     const data = await response.json();
     setAddresses(data);
   };
 
   useEffect(() => {
     fetchAddress();
-  }, []);
+  }, [isOpen]);
 
   return (
     <section>
@@ -53,17 +59,22 @@ export function AddressSection() {
             <button onClick={() => setIsOpen({ ...isOpen, remove: true })}>
               Remover
             </button>
-            <ModalAddAddress
-              isOpen={isOpen.add}
-              setIsOpen={() => setIsOpen({ ...isOpen, add: false })}
-            />
             <ModalEditAddress
               isOpen={isOpen.edit}
               setIsOpen={() => setIsOpen({ ...isOpen, edit: false })}
               address={address}
             />
+            <AddressRemoveModal
+              isOpen={isOpen.remove}
+              setIsOpen={() => setIsOpen({ ...isOpen, remove: false })}
+              addressId={address.id}
+            />
           </li>
         ))}
+        <ModalAddAddress
+          isOpen={isOpen.add}
+          setIsOpen={() => setIsOpen({ ...isOpen, add: false })}
+        />
       </ul>
     </section>
   );
