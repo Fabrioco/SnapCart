@@ -22,13 +22,9 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
-  const { id } = req.params;
-  if (!id) {
-    res.status(404).json({ error: "Id do usuário não encontrado" });
-  }
-
+  const email = res.locals.token.email
   try {
-    const user = await getOneUser(+id);
+    const user = await getOneUser(email);
     res.status(200).json(user);
   } catch (error) {
     if (error instanceof Error) {
@@ -57,7 +53,7 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
 
     res.cookie("token", newUser.access_token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -124,7 +120,7 @@ export const login = async (req: Request, res: Response) => {
     const login = await signIn(validation.data);
     res.cookie("token", login.access_token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -181,7 +177,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
 export const forgotPassword = async (req: Request, res: Response) => {
   try {
-    const { email } = req.body
+    const { email } = req.body;
     const token = await forgotPasswordService(email);
     res.status(200).json(token);
   } catch (error) {
@@ -191,11 +187,11 @@ export const forgotPassword = async (req: Request, res: Response) => {
     }
     res.status(500).json({ error: "Erro interno do servidor" });
   }
-}
+};
 
 export const resetPassword = async (req: Request, res: Response) => {
   try {
-    const { token } = req.params
+    const { token } = req.params;
     const { password } = req.body;
     const resetPassword = await resetPasswordService(token, password);
     res.status(200).json(resetPassword);
@@ -206,4 +202,4 @@ export const resetPassword = async (req: Request, res: Response) => {
     }
     res.status(500).json({ error: "Erro interno do servidor" });
   }
-}
+};
