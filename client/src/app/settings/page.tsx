@@ -9,7 +9,7 @@ import React from "react";
 export default function SettingsPage() {
   return (
     <ProtectedRoute>
-      <main>
+      <main className="w-full px-4 py-2 mt-10 flex flex-col gap-4">
         <NameSection />
 
         <ProfileSection />
