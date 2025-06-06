@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { ModalAddAddress } from "./modals/addressAddModal";
 import { ModalEditAddress } from "./modals/addressEditModal";
@@ -29,7 +30,7 @@ export function AddressSection() {
     if (!response.ok) {
       throw new Error("Erro ao buscar endereço");
     }
-    
+
     const data = await response.json();
     setAddresses(data);
   };
