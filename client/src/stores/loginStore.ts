@@ -70,10 +70,11 @@ export const useLoginStore = create<LoginState>()(
 
           const result = await response.json();
 
-          if (result === "Erro interno do servidor") {
-            set({ error: result });
+          if (result.error) {
+            set({ error: result.error });
             return;
           }
+
           window.location.href = "/";
         } catch (error) {
           console.error(error);
