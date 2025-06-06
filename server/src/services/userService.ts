@@ -76,7 +76,6 @@ export const updateUserData = async (userId: number, data: UpdateUserInput) => {
   if (!findUser) {
     throw new Error("Usuário não encontrado");
   }
-
   try {
     const updatedUser = await prisma.user.update({
       where: { id: userId },
@@ -102,7 +101,6 @@ export const signIn = async (data: SignInInput) => {
   }
 
   const hashedPassword = await bcrypt.compare(data.password, user.password);
-  ("passou da senha");
 
   if (!hashedPassword) {
     throw new Error("Login inválido senha");
