@@ -17,7 +17,7 @@ type UserUpdateState = {
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
   formatPhone: (phone: string) => string;
-  handleUpdateUser: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  handleUpdateUser: (e: React.FormEvent<HTMLFormElement>, id: number) => Promise<void>;
 };
 
 export const useUserUpdateStore = create<UserUpdateState>((set, get) => ({
@@ -41,7 +41,7 @@ export const useUserUpdateStore = create<UserUpdateState>((set, get) => ({
       .replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
   },
 
-  handleUpdateUser: async (e: React.FormEvent<HTMLFormElement>) => {
+  handleUpdateUser: async (e: React.FormEvent<HTMLFormElement>, id: number) => {
     e.preventDefault();
 
     if (!get().name && !get().email && !get().password) {
@@ -59,7 +59,7 @@ export const useUserUpdateStore = create<UserUpdateState>((set, get) => ({
       set({ loading: true });
 
       const response = await fetch(
-        `http://localhost:5000/api/users/${get().user?.id}`,
+        `http://localhost:5000/api/users/${id}`,
         {
           method: "PATCH",
           headers: {
