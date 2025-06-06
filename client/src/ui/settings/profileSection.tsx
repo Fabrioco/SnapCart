@@ -1,4 +1,5 @@
 "use client";
+import { useCheckAuth } from "@/hooks/useCheckAuth";
 import { useUserUpdateStore } from "@/stores/settings/userUpdateStore";
 
 export function ProfileSection() {
@@ -20,10 +21,12 @@ export function ProfileSection() {
     setNumberPhone(formattedNumber);
   };
 
+  const { user } = useCheckAuth();
+
   return (
     <section>
       <h2>Perfil</h2>
-      <form onSubmit={handleUpdateUser}>
+      <form onSubmit={(e) => handleUpdateUser(e, user.id)}>
         <input
           type="text"
           placeholder="Nome Completo"
