@@ -82,7 +82,7 @@ export function ModalEditAddress({
         className="w-full fixed inset-0 h-full bg-black/50"
         onClick={() => setIsOpen(false)}
       />
-      <div className="bg-white rounded p-6 w-full max-w-md shadow-lg z-50 relative text-black dark:text-white dark:bg-gray-800">
+      <div className="bg_accessibility_container rounded p-6 w-full max-w-md shadow-lg z-50 relative">
         <h2 className="text-2xl font-semibold mb-4">Editar endereço</h2>
         <button
           type="button"
