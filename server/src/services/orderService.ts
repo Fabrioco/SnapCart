@@ -94,10 +94,6 @@ export const findAllOrdersService = async (userId: number) => {
       include: { items: true },
     });
 
-    if (!orders.length) {
-      throw new Error("Nenhum pedido encontrado para o usuário");
-    }
-
     return orders;
   } catch (error: unknown) {
     if (error instanceof Error) throw new Error(error.message);
@@ -136,4 +132,3 @@ export const updateStatusOrderService = async (id: number, status: string) => {
     throw new Error("Erro ao atualizar status do pedido");
   }
 };
-
