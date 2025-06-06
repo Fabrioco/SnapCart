@@ -10,12 +10,12 @@
   --text-color: #000;
 }
 
-[data-theme="light"] {
-  --bg-container-color: #000;
+[data-theme="dark"] {
+  --bg-container-color: #1e2939;
   --text-container-color: #fff;
 }
 
-[data-theme="dark"] {
+[data-theme="light"] {
   --bg-container-color: #fff;
   --text-container-color: #000;
 }
@@ -26,6 +26,11 @@ body {
 }
 
 .bg_accessibility {
+  background-color: var(--bg-container-color);
+  color: var(--text-container-color);
+}
+
+.bg_accessibility_container {
   background-color: var(--bg-container-color);
   color: var(--text-container-color);
 }
