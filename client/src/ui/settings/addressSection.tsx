@@ -40,26 +40,32 @@ export function AddressSection() {
   }, [isOpen]);
 
   return (
-    <section>
-      <h2>Endereços</h2>
-      <button onClick={() => setIsOpen({ ...isOpen, add: true })}>
+    <section className="flex flex-col gap-4">
+      <h2 className="text-2xl font-semibold">Endereços</h2>
+      <button
+        onClick={() => setIsOpen({ ...isOpen, add: true })}
+        className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 w-fit"
+      >
         Adicionar endereço
       </button>
-      <ul>
+      <ul className="flex flex-col gap-2">
         {addresses.map((address) => (
-          <li key={address.id}>
-            <h3>{address.street}</h3>
-            <p>{address.number}</p>
-            <p>{address.city}</p>
-            <p>{address.state}</p>
-            <p>{address.country}</p>
-            <p>{address.type}</p>
-            <button onClick={() => setIsOpen({ ...isOpen, edit: true })}>
-              Editar
-            </button>
-            <button onClick={() => setIsOpen({ ...isOpen, remove: true })}>
-              Remover
-            </button>
+          <li
+            key={address.id}
+            className="flex flex-col gap-2 border border-gray-300 px-8 py-4 rounded-lg"
+          >
+            <p>
+              {address.street}, {address.number} - {address.city}/
+              {address.state} - {address.country}, {address.type}
+            </p>
+            <div className="flex gap-2">
+              <button onClick={() => setIsOpen({ ...isOpen, edit: true })} className="text-blue-600 cursor-pointer">
+                Editar
+              </button>
+              <button onClick={() => setIsOpen({ ...isOpen, remove: true })} className="text-red-600 cursor-pointer">
+                Remover
+              </button>
+            </div>
             <ModalEditAddress
               isOpen={isOpen.edit}
               setIsOpen={() => setIsOpen({ ...isOpen, edit: false })}
