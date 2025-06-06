@@ -15,14 +15,14 @@ export function OrderSection() {
       },
     });
 
-    const data = await response.json();
+    const result = await response.json();
 
-    if (data.message === "Nenhum pedido encontrado para o usuário") {
-      setError(data.message);
+    if (!response.ok) {
+      setError(result.error);
       return;
     }
 
-    setOrders(data);
+    setOrders(result);
   };
 
   useEffect(() => {
@@ -33,13 +33,16 @@ export function OrderSection() {
     <section>
       <h2>Pedidos</h2>
       <ul>
-        {orders.length > 0 &&
+        {orders.length > 0 ? (
           orders.map((order) => (
             <li key={order.id}>
               <p>{order.id}</p>
               <p>{order.orderStatus}</p>
             </li>
-          ))}
+          ))
+        ) : (
+          <p>Voce não possui nenhum pedido</p>
+        )}
         {error && <p>{error}</p>}
       </ul>
     </section>
