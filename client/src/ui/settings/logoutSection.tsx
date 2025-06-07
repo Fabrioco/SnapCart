@@ -28,8 +28,13 @@ export function LogoutSection() {
   };
 
   return (
-    <section>
-      <button onClick={handleLogout}>Sair</button>
+    <section className="w-full flex items-center justify-center">
+      <button
+        onClick={handleLogout}
+        className="bg-red-500 px-4 py-2 rounded-md text-white hover:bg-red-600 cursor-pointer"
+      >
+        Sair
+      </button>
     </section>
   );
 }
