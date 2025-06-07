@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export function AddressRemoveModal({
   isOpen,
   setIsOpen,
@@ -26,6 +28,20 @@ export function AddressRemoveModal({
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, setIsOpen]);
+
   return (
     <div
       className={`fixed inset-0 bg-black/25 ${
@@ -51,7 +67,7 @@ export function AddressRemoveModal({
             onClick={() => setIsOpen(false)}
             className="text-gray-500 hover:underline hover:text-orange-500 cursor-pointer"
           >
-            Cancelar
+            Cancelar (Esc)
           </button>
         </div>
       </div>
