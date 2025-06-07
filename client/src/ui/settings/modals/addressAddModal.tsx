@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAddressAddStore } from "@/stores/settings/addressAddStore";
 
 export function ModalAddAddress({
@@ -24,6 +25,20 @@ export function ModalAddAddress({
     setType,
     handleSubmit,
   } = useAddressAddStore();
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, setIsOpen]);
 
   return (
     <div
