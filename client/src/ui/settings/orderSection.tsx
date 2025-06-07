@@ -30,14 +30,20 @@ export function OrderSection() {
   }, []);
 
   return (
-    <section>
-      <h2>Pedidos</h2>
-      <ul>
+    <section className="flex flex-col gap-4">
+      <h2 className="text-2xl font-semibold mb-4">Pedidos</h2>
+      <ul className="flex flex-col gap-2">
         {orders.length > 0 ? (
           orders.map((order) => (
-            <li key={order.id}>
-              <p>{order.id}</p>
-              <p>{order.orderStatus}</p>
+            <li
+              key={order.id}
+              className="flex justify-between items-center border border-solid border-gray-500 p-2 text-lg"
+            >
+              <h2 className="text-xl">Pedido #{order.paymentId}</h2>
+              <p>Valor pago: {order.total}</p>
+              <p>Situação: {order.orderStatus}</p>
+              <p>Endereço: {order.addressId}</p>
+              <p>Criado em: {order.createdAt}</p>
             </li>
           ))
         ) : (
