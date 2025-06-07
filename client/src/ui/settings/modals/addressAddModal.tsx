@@ -66,7 +66,7 @@ export function ModalAddAddress({
             placeholder="CEP"
             value={cep}
             onChange={handleCepChange}
-            maxLength={8}
+            maxLength={9}
             required
             pattern="\d{5}-\d{3}"
             className="px-2 py-1 rounded border border-solid border-gray-500 dark:border-gray-600"
