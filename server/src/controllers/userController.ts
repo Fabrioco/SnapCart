@@ -22,7 +22,7 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
-  const email = res.locals.token.email
+  const email = res.locals.token.email;
   try {
     const user = await getOneUser(email);
     res.status(200).json(user);
@@ -135,7 +135,19 @@ export const login = async (req: Request, res: Response) => {
         res.status(400).json({ error: error.message });
         return;
       }
+      if (error.message === "Login inválido email") {
+        res.status(400).json({ error: error.message });
+        return;
+      }
+      if (error.message === "Login inválido senha") {
+        res.status(400).json({ error: error.message });
+        return;
+      }
+      if (error.message === "Erro ao fazer login") {
+        res.status(500).json({ error: error.message });
+      }
     }
+    console.log(error);
     res.status(500).json("Erro interno do servidor");
   }
 };
