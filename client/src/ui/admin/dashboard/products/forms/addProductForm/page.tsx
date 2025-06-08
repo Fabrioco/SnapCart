@@ -1,0 +1,160 @@
+"use client";
+
+import { ProductType } from "@/types/productType";
+import { useEffect, useState } from "react";
+
+export function AddProductForm() {
+  const [categories, setCategories] = useState<string[]>([]);
+  const [product, setProduct] = useState<Omit<ProductType, "id">>({
+    name: "",
+    description: "",
+    price: 0,
+    category: "",
+    image: "",
+  });
+
+  const fetchProducts = async () => {
+    const res = await fetch("http://localhost:5000/api/products", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      throw new Error("Erro ao buscar produtos");
+    }
+    const data = await res.json();
+    setCategories(data.map((product: ProductType) => product.category));
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (
+      !product.name ||
+      !product.description ||
+      !product.price ||
+      !product.category ||
+      !product.image
+    ) {
+      alert("Preencha todos os campos");
+      console.log(product);
+      return;
+    }
+
+    try {
+      if (typeof product.image === "object") {
+        const imageBase64 = await base64(product.image);
+        product.image = imageBase64 as string;
+      }
+
+      const priceFormatted = product.price.toString().replace(",", ".");
+      product.price = Number(priceFormatted);
+
+      const res = await fetch("http://localhost:5000/api/products", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(product),
+      });
+      console.log(product);
+      console.log(await res.json());
+      if (!res.ok) {
+        throw new Error("Erro ao adicionar produto");
+      }
+
+      const data = await res.json();
+      if (data) {
+        alert("Produto adicionado com sucesso");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const base64 = (file: File) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  return (
+    <form aria-labelledby="add-product-form-title" onSubmit={handleFormSubmit}>
+      <fieldset>
+        <legend id="add-product-form-title">Adicionar Produto</legend>
+        <label htmlFor="productName">Nome do Produto</label>
+        <input
+          type="text"
+          id="productName"
+          name="productName"
+          required
+          value={product.name}
+          onChange={(e) => setProduct({ ...product, name: e.target.value })}
+        />
+
+        <label htmlFor="productDescription">Descrição do Produto</label>
+        <textarea
+          id="productDescription"
+          name="productDescription"
+          required
+          rows={4}
+          cols={50}
+          value={product.description}
+          onChange={(e) =>
+            setProduct({ ...product, description: e.target.value })
+          }
+        ></textarea>
+
+        <label htmlFor="productCategory">Categoria</label>
+        <input
+          type="text"
+          id="productCategory"
+          name="productCategory"
+          required
+          list="categories"
+          value={product.category}
+          onChange={(e) => setProduct({ ...product, category: e.target.value })}
+        />
+        <datalist id="categories">
+          {categories.map((category) => (
+            <option key={category} value={category} />
+          ))}
+        </datalist>
+
+        <label htmlFor="productPrice">Preço</label>
+        <input
+          type="number"
+          id="productPrice"
+          name="productPrice"
+          required
+          value={product.price}
+          onChange={(e) =>
+            setProduct({ ...product, price: parseFloat(e.target.value) })
+          }
+        />
+
+        <label htmlFor="productImage">Imagem</label>
+        <input
+          type="file"
+          id="productImage"
+          name="productImage"
+          required
+          accept="image/*"
+          onChange={(e) =>
+            setProduct({ ...product, image: e.target.files![0] })
+          }
+        />
+
+        <button type="submit">Adicionar Produto</button>
+      </fieldset>
+    </form>
+  );
+}
