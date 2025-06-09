@@ -41,7 +41,6 @@ export function AddProductForm() {
       !product.image
     ) {
       alert("Preencha todos os campos");
-      console.log(product);
       return;
     }
 
@@ -62,8 +61,6 @@ export function AddProductForm() {
         },
         body: JSON.stringify(product),
       });
-      console.log(product);
-      console.log(await res.json());
       if (!res.ok) {
         throw new Error("Erro ao adicionar produto");
       }
@@ -87,9 +84,15 @@ export function AddProductForm() {
   };
 
   return (
-    <form aria-labelledby="add-product-form-title" onSubmit={handleFormSubmit}>
-      <fieldset>
-        <legend id="add-product-form-title">Adicionar Produto</legend>
+    <form
+      aria-labelledby="add-product-form-title"
+      onSubmit={handleFormSubmit}
+      className="flex flex-col gap-4 w-full h-auto"
+    >
+      <fieldset className="flex flex-col gap-1 px-2 text-lg">
+        <legend id="add-product-form-title" className="text-xl font-semibold">
+          Adicionar Produto
+        </legend>
         <label htmlFor="productName">Nome do Produto</label>
         <input
           type="text"
@@ -98,6 +101,7 @@ export function AddProductForm() {
           required
           value={product.name}
           onChange={(e) => setProduct({ ...product, name: e.target.value })}
+          className="px-2 py-1 rounded border border-solid border-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
 
         <label htmlFor="productDescription">Descrição do Produto</label>
@@ -105,12 +109,11 @@ export function AddProductForm() {
           id="productDescription"
           name="productDescription"
           required
-          rows={4}
-          cols={50}
           value={product.description}
           onChange={(e) =>
             setProduct({ ...product, description: e.target.value })
           }
+          className="px-2 py-1 rounded border border-solid border-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
         ></textarea>
 
         <label htmlFor="productCategory">Categoria</label>
@@ -122,6 +125,7 @@ export function AddProductForm() {
           list="categories"
           value={product.category}
           onChange={(e) => setProduct({ ...product, category: e.target.value })}
+          className="px-2 py-1 rounded border border-solid border-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
         <datalist id="categories">
           {categories.map((category) => (
@@ -139,6 +143,7 @@ export function AddProductForm() {
           onChange={(e) =>
             setProduct({ ...product, price: parseFloat(e.target.value) })
           }
+          className="px-2 py-1 rounded border border-solid border-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
 
         <label htmlFor="productImage">Imagem</label>
@@ -151,9 +156,15 @@ export function AddProductForm() {
           onChange={(e) =>
             setProduct({ ...product, image: e.target.files![0] })
           }
+          className="px-2 py-1 rounded border border-solid border-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
 
-        <button type="submit">Adicionar Produto</button>
+        <button
+          type="submit"
+          className="bg-orange-500 rounded text-white px-4 py-2 hover:bg-orange-600 cursor-pointer mt-8"
+        >
+          Adicionar Produto
+        </button>
       </fieldset>
     </form>
   );
