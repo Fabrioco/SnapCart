@@ -1,7 +1,8 @@
 export type UserType = {
-    id: number;
-    name: string;
-    number: string;
-    email: string;
-    password: string;
+  id: number;
+  name: string;
+  number: string;
+  email: string;
+  password: string;
+  role: string;
 };
