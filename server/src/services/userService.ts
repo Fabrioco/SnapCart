@@ -29,6 +29,23 @@ export const getOneUser = async (email: string) => {
   }
 };
 
+export const getOneUserById = async (id: number) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
+    if (!user) {
+      throw new Error("Usuário não encontrado");
+    }
+    return user;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Erro ao buscar os dados do usuário");
+  }
+};
+
 export const createUser = async (data: CreateUserInput) => {
   try {
     const findUser = await prisma.user.findUnique({
