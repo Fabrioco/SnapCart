@@ -10,11 +10,13 @@ import {
   resetPassword,
 } from "../controllers/userController";
 import { authMiddleware } from "../middlewares/authMiddleware";
+import { verifyRoleAdmin } from "../middlewares/verifyRoleAdminMiddleware";
 
 const router = express.Router();
 
 router.get("/users", getUsers);
 router.post("/users", addUser);
+router.get("/users/:id", authMiddleware, verifyRoleAdmin, getUser);
 router.get("/user", authMiddleware, getUser);
 router.patch("/users/:id", authMiddleware, updateUser);
 router.post("/users/login", login);

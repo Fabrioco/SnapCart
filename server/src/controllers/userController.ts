@@ -5,6 +5,7 @@ import {
   forgotPasswordService,
   getAllUsers,
   getOneUser,
+  getOneUserById,
   logOut,
   resetPasswordService,
   signIn,
@@ -25,6 +26,31 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
   const email = res.locals.token.email;
   try {
     const user = await getOneUser(email);
+    res.status(200).json(user);
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message === "Usuário não encontrado") {
+        res.status(404).json(error.message);
+        return;
+      }
+      res.status(400).json(error.message);
+      return;
+    }
+    res.status(500).json({ error: "Erro interno do servidor" });
+  }
+};
+
+export const getUserById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(404).json({ error: "Id do usuário nao encontrado" });
+    return;
+  }
+  try {
+    const user = await getOneUserById(+id);
     res.status(200).json(user);
   } catch (error) {
     if (error instanceof Error) {
