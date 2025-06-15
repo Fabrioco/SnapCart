@@ -9,6 +9,28 @@ export function OrderDetails({
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const updateToSendProduct = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/orders/${order.id}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: order.id,
+          status: "Enviado",
+        }),
+      });
+      console.log(res);
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      }
+    }
+  };
   return (
     <li
       key={order.id}
@@ -48,7 +70,10 @@ export function OrderDetails({
               <span className="font-semibold">Status:</span> {order.orderStatus}
             </p>
             {order.orderStatus === "Pago" && (
-              <button className="font-semibold text-white bg-green-500 py-2 px-4 rounded hover:bg-green-600 hover:shadow-lg cursor-pointer">
+              <button
+                onClick={updateToSendProduct}
+                className="font-semibold text-white bg-green-500 py-2 px-4 rounded hover:bg-green-600 hover:shadow-lg cursor-pointer"
+              >
                 Marcar como enviado
               </button>
             )}
