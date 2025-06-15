@@ -12,12 +12,21 @@ export function FormSearch({
 }) {
   const [searchTerm, setSearchTerm] = React.useState<string>("");
 
+  const allOrderDontFiltered = React.useMemo(() => {
+    return allOrders;
+  }, [allOrders]);
+
   const handleFilterOrders = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const filtered = allOrders.filter((order) =>
       order.user.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredOrders(filtered);
+  };
+
+  const clearSearch = () => {
+    setSearchTerm("");
+    setFilteredOrders(allOrderDontFiltered);
   };
 
   return (
@@ -30,7 +39,9 @@ export function FormSearch({
           value={searchTerm}
           className="w-full focus:outline-none"
         />
-        <span className="cursor-pointer">Limpar</span>
+        <span className="cursor-pointer" onClick={clearSearch}>
+          Limpar
+        </span>
       </div>
       <button
         type="submit"
