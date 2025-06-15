@@ -1,4 +1,5 @@
 import { AddressType } from "./addressType";
+import { ProductType } from "./productType";
 import { UserType } from "./userType";
 
 export type OrderType = {
@@ -9,11 +10,6 @@ export type OrderType = {
   total: number;
   orderStatus: string;
   createdAt: string;
-};
-
-export type OrderUserAddress = OrderType & {
-  user: UserType;
-  address: AddressType;
   items: [
     {
       id: number;
@@ -23,4 +19,10 @@ export type OrderUserAddress = OrderType & {
       orderId: number;
     }
   ];
+};
+
+export type OrderUserAddress = OrderType & {
+  user: UserType;
+  address: AddressType;
+  products: ProductType[];
 };
