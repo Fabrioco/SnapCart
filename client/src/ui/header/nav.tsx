@@ -3,35 +3,34 @@ import { useCheckAuth } from "@/hooks/useCheckAuth";
 import Link from "next/link";
 
 export function NavHeader() {
-  const { user } = useCheckAuth();
+  const { user, loading } = useCheckAuth();
+
   return (
     <nav>
       <ul className="flex gap-4">
-        <li>
-          <Link href="/" className="hover:text-orange-500">
-            Home
-          </Link>
+        <li className="hover:text-orange-500">
+          <Link href="/">Home</Link>
         </li>
-        <li>
-          <Link href="/cart" className="hover:text-orange-500">
-            Carrinho
-          </Link>
+        <li className="hover:text-orange-500">
+          <Link href="/cart">Carrinho</Link>
         </li>
-        <li>
-          <Link href="/products" className="hover:text-orange-500">
-            Produtos
-          </Link>
+        <li className="hover:text-orange-500">
+          <Link href="/products">Produtos</Link>
         </li>
-        <li>
-          <Link href="/settings" className="hover:text-orange-500">
-            Configuração
-          </Link>
-        </li>
-        {user.role === "admin" && (
-          <li>
-            <Link href="/admin/dashboard" className="hover:text-orange-500">
-              Admin
-            </Link>
+        {!loading && user ? (
+          <>
+            <li className="hover:text-orange-500">
+              <Link href="/settings">Configuração</Link>
+            </li>
+            {user.role === "admin" && (
+              <li className="hover:text-orange-500">
+                <Link href="/admin/dashboard">Admin</Link>
+              </li>
+            )}
+          </>
+        ) : (
+          <li className="hover:text-orange-500">
+            <Link href="/auth/login">Login</Link>
           </li>
         )}
       </ul>
