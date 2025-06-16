@@ -1,6 +1,9 @@
+"use client";
+import { useCheckAuth } from "@/hooks/useCheckAuth";
 import Link from "next/link";
 
 export function NavHeader() {
+  const { user } = useCheckAuth();
   return (
     <nav>
       <ul className="flex gap-4">
@@ -19,6 +22,18 @@ export function NavHeader() {
             Produtos
           </Link>
         </li>
+        <li>
+          <Link href="/settings" className="hover:text-orange-500">
+            Configuração
+          </Link>
+        </li>
+        {user.role === "admin" && (
+          <li>
+            <Link href="/admin/dashboard" className="hover:text-orange-500">
+              Admin
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
