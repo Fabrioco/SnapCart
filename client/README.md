@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Visão Geral do Diretório `client`
 
-## Getting Started
+O diretório `client` contém o frontend da aplicação SnapCart, uma plataforma moderna de e-commerce. Esta parte do código é construída com tecnologias de ponta para garantir uma experiência eficiente, responsiva e amigável ao usuário. Abaixo está uma explicação detalhada da estrutura e do propósito de cada subdiretório e arquivo dentro do diretório `client`.
 
-First, run the development server:
+## Estrutura de Diretórios
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+client/
+├── src/
+│   ├── app/                    # Páginas da aplicação usando o App Router do Next.js
+│   │   ├── auth/               # Páginas de autenticação: login, registro e recuperação de senha
+│   │   ├── cart/               # Funcionalidades do carrinho de compras
+│   │   ├── products/           # Listagem e detalhes dos produtos
+│   │   ├── admin/              # Dashboard do administrador para gerenciar produtos e pedidos
+│   │   └── settings/           # Configurações do usuário e gerenciamento de perfil
+│   ├── components/             # Componentes reutilizáveis da interface, como Header e Footer
+│   ├── hooks/                  # Hooks personalizados do React para controle de estado e efeitos
+│   ├── services/               # Serviços para requisições à API e regras de negócio
+│   ├── stores/                 # Gerenciamento de estado global usando Zustand
+│   ├── styles/                 # Estilos globais, principalmente configurações do TailwindCSS
+│   ├── types/                  # Definições de tipos e interfaces do TypeScript
+│   └── utils/                  # Funções utilitárias e auxiliares
+├── public/                     # Arquivos públicos como imagens e ícones
+└── package.json                # Metadados e dependências do projeto
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias Principais
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js**: Framework React utilizado para renderização do lado do servidor e geração de sites estáticos, otimizando o desempenho e o SEO.
+- **React**: Biblioteca JavaScript para construção de interfaces de usuário, garantindo uma experiência dinâmica e responsiva.
+- **TailwindCSS**: Framework CSS baseado em utilitários, oferecendo uma ampla gama de opções de estilização e design consistente.
+- **TypeScript**: Superset do JavaScript com tipagem estática, melhorando a qualidade e a manutenção do código.
+- **Zustand**: Solução leve de gerenciamento de estado, facilitando o controle de estado global na aplicação.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contribuição
 
-## Learn More
+Contribuições para o diretório `client` são bem-vindas! Se você deseja adicionar novas funcionalidades, melhorar o desempenho ou aprimorar a interface do usuário, fique à vontade para enviar um pull request.
 
-To learn more about Next.js, take a look at the following resources:
+## Licença
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Este projeto está licenciado sob a Licença MIT. Para mais detalhes, consulte o arquivo LICENSE.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Criado com precisão e cuidado por Fabrício Oliveira Lopes.
