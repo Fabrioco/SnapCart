@@ -1,12 +1,12 @@
+'use client'
 import { UserType } from "@/types/userType";
 import { useState, useEffect, useCallback } from "react";
 
 export const useCheckAuth = () => {
-  const [user, setUser] = useState<UserType>({} as UserType);
+  const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchUser = useCallback(async () => {
-    setLoading(true);
     try {
       const response = await fetch("http://localhost:5000/api/user", {
         method: "GET",
@@ -15,10 +15,16 @@ export const useCheckAuth = () => {
           "Content-Type": "application/json",
         },
       });
-      const userData = await response.json();
-      setUser(userData);
+
+      if (!response.ok) {
+        setUser(null);
+      } else {
+        const userData = await response.json();
+        setUser(userData);
+      }
     } catch (error) {
       console.error(error);
+      setUser(null);
     } finally {
       setLoading(false);
     }
@@ -27,12 +33,6 @@ export const useCheckAuth = () => {
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
-
-  useEffect(() => {
-    if (!loading && !user.id) {
-      window.location.href = "/auth/login";
-    }
-  }, [loading, user]);
 
   return { user, loading };
 };
