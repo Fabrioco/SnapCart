@@ -6,8 +6,8 @@
 
 ## 🚀 Tecnologias Usadas
 
-- **Frontend**: Next.js 14 (App Router), React, TailwindCSS
-- **Backend**: API REST com Next.js API Routes
+- **Frontend**: Next.js, React, TailwindCSS, TypeScript
+- **Backend**: API REST com Node.js (express), TypeScript, API Routes
 - **Banco de dados**: PostgreSQL (Docker Compose) + Prisma ORM
 - **Autenticação**: JWT/Cookies (com endpoints como `/api/users/login`)
 - **Pagamentos**: Stripe (checkout com `session_id`)
