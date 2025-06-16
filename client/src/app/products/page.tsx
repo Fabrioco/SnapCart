@@ -1,79 +1,30 @@
 "use client";
+import { useProducts } from "@/hooks/useProducts";
 import ProtectedRoute from "@/routes/protectedRoute";
-import { ProductType } from "@/types/productType";
+import { handleAddProductToCart } from "@/services/cartItemService";
 import { ButtonFilterSection } from "@/ui/products/buttonFilterSection";
 import { CategorySection } from "@/ui/products/categorySection";
 import { ProductListSection } from "@/ui/products/productList/page";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<ProductType[]>([]);
+  const { products, loading, error } = useProducts();
   const [filter, setFilter] = useState<string>("");
   const [isOpenFilterSidebar, setIsOpenFilterSidebar] =
     useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await fetch("http://localhost:5000/api/products", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "GET",
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        console.error(await res.json());
-        throw new Error("Erro ao buscar produtos");
-      }
-
-      const data = await res.json();
-      setProducts(data);
-    };
-
-    fetchProducts();
-  }, []);
-
-  if (products.length === 0) {
-    return <p className="text-center">Carregando...</p>;
-  }
-
-  const categories = Array.from(
-    new Set(products.map((product) => product.category))
-  );
+  const categories = Array.from(new Set(products.map((p) => p.category)));
 
   const filteredProducts = filter
-    ? products.filter((product) => product.category === filter)
+    ? products.filter((p) => p.category === filter)
     : products;
 
-  const handleCategoryFilter = (category: string) => {
-    setFilter(category);
-  };
+  if (loading) return <p className="text-center">Carregando...</p>;
 
-  const handleClearFilter = () => {
-    setFilter("");
-  };
+  if (error) return <p className="text-center">{error}</p>;
 
-  const handleAddProductToCart = async (
-    productId: number,
-    quantity: number
-  ) => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/cart-items`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ productId, quantity }),
-      });
-
-      const data = await res.json();
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  if (products.length === 0)
+    return <p className="text-center">Carregando...</p>;
 
   return (
     <ProtectedRoute>
@@ -89,11 +40,11 @@ export default function ProductsPage() {
           isOpenFilterSidebar={isOpenFilterSidebar}
           filter={filter}
           categories={categories}
-          handleCategoryFilter={handleCategoryFilter}
-          handleClearFilter={handleClearFilter}
+          handleCategoryFilter={setFilter}
+          handleClearFilter={() => setFilter("")}
         />
 
-        {products.length > 0 ? (
+        {filteredProducts.length > 0 ? (
           <ProductListSection
             filteredProducts={filteredProducts}
             handleAddProductToCart={handleAddProductToCart}
