@@ -146,9 +146,10 @@ export const login = async (req: Request, res: Response) => {
     const login = await signIn(validation.data);
     res.cookie("token", login.access_token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/",
     });
     res.status(200).json({ message: "Bem vindo de volta!" });
   } catch (error: unknown) {
