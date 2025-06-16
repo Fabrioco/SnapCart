@@ -1,73 +1,12 @@
 "use client";
 import { AddressType } from "@/types/addressType";
-import { CartItemType, CartItemTypeWithProduct } from "@/types/cartItemType";
+import { CartItemTypeWithProduct } from "@/types/cartItemType";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/routes/protectedRoute";
-
-export const fetchCartItems = async () => {
-  try {
-    const response = await fetch("https://snapcart-boue.onrender.com/api/cart-items", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Erro ao buscar itens do carrinho");
-    }
-
-    const data: CartItemType[] = await response.json();
-    const productsPromises = data.map(async (item) => {
-      const productResponse = await fetch(
-        `https://snapcart-boue.onrender.com/api/products/${item.productId}`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!productResponse.ok) {
-        throw new Error("Erro ao buscar produto");
-      }
-
-      const product = await productResponse.json();
-      return { ...item, product };
-    });
-
-    const products = await Promise.all(productsPromises);
-    return products;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const fetchAddress = async () => {
-  try {
-    const response = await fetch("https://snapcart-boue.onrender.com/api/addresses", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Erro ao buscar endereços");
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+import { fetchCartItems } from "@/services/fetchCartItems";
+import { fetchAddress } from "@/services/fetchAddress";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItemTypeWithProduct[]>([]);
@@ -101,14 +40,17 @@ export default function CartPage() {
       return;
     }
 
-    const response = await fetch("https://snapcart-boue.onrender.com/api/stripe/card", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ addressId: selectedAddress }),
-    });
+    const response = await fetch(
+      "https://snapcart-boue.onrender.com/api/stripe/card",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ addressId: selectedAddress }),
+      }
+    );
 
     if (!response.ok) {
       console.error(await response.json());
