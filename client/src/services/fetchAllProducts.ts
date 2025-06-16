@@ -1,7 +1,7 @@
 import { ProductType } from "@/types/productType";
 
 export const fetchAllProducts = async (): Promise<ProductType[]> => {
-  const res = await fetch("http://localhost:5000/api/products", {
+  const res = await fetch("https://snapcart-boue.onrender.com/api/products", {
     headers: {
       "Content-Type": "application/json",
     },

@@ -59,7 +59,7 @@ export const useUserUpdateStore = create<UserUpdateState>((set, get) => ({
       set({ loading: true });
 
       const response = await fetch(
-        `http://localhost:5000/api/users/${id}`,
+        `https://snapcart-boue.onrender.com/api/users/${id}`,
         {
           method: "PATCH",
           headers: {

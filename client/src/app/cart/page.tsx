@@ -8,7 +8,7 @@ import ProtectedRoute from "@/routes/protectedRoute";
 
 export const fetchCartItems = async () => {
   try {
-    const response = await fetch("http://localhost:5000/api/cart-items", {
+    const response = await fetch("https://snapcart-boue.onrender.com/api/cart-items", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -23,7 +23,7 @@ export const fetchCartItems = async () => {
     const data: CartItemType[] = await response.json();
     const productsPromises = data.map(async (item) => {
       const productResponse = await fetch(
-        `http://localhost:5000/api/products/${item.productId}`,
+        `https://snapcart-boue.onrender.com/api/products/${item.productId}`,
         {
           method: "GET",
           credentials: "include",
@@ -50,7 +50,7 @@ export const fetchCartItems = async () => {
 
 export const fetchAddress = async () => {
   try {
-    const response = await fetch("http://localhost:5000/api/addresses", {
+    const response = await fetch("https://snapcart-boue.onrender.com/api/addresses", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -101,7 +101,7 @@ export default function CartPage() {
       return;
     }
 
-    const response = await fetch("http://localhost:5000/api/stripe/card", {
+    const response = await fetch("https://snapcart-boue.onrender.com/api/stripe/card", {
       method: "POST",
       credentials: "include",
       headers: {

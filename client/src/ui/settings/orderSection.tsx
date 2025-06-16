@@ -7,7 +7,7 @@ export function OrderSection() {
   const [orders, setOrders] = useState<OrderType[]>([]);
   const [error, setError] = useState<string>("");
   const fetchOrder = async () => {
-    const response = await fetch("http://localhost:5000/api/orders", {
+    const response = await fetch("https://snapcart-boue.onrender.com/api/orders", {
       method: "GET",
       credentials: "include",
       headers: {

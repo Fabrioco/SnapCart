@@ -11,7 +11,7 @@ export function OrderDetails({
 }) {
   const updateToSendProduct = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/${order.id}`, {
+      const res = await fetch(`https://snapcart-boue.onrender.com/api/orders/${order.id}`, {
         method: "PATCH",
         credentials: "include",
         headers: {

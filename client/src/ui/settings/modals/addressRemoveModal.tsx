@@ -11,7 +11,7 @@ export function AddressRemoveModal({
 }) {
   const removeAddress = async () => {
     const response = await fetch(
-      `http://localhost:5000/api/addresses/${addressId}`,
+      `https://snapcart-boue.onrender.com/api/addresses/${addressId}`,
       {
         method: "DELETE",
         credentials: "include",

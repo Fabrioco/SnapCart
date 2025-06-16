@@ -17,7 +17,7 @@ export default function RemoveProductForm() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/products/${productId}`,
+        `https://snapcart-boue.onrender.com/api/products/${productId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -35,7 +35,7 @@ export default function RemoveProductForm() {
   };
 
   const fetchProducts = async () => {
-    const res = await fetch("http://localhost:5000/api/products", {
+    const res = await fetch("https://snapcart-boue.onrender.com/api/products", {
       method: "GET",
       credentials: "include",
     });

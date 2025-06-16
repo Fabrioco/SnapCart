@@ -75,7 +75,7 @@ export const useAddressAddStore = create<AddressAddStore>((set, get) => ({
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/addresses", {
+      const res = await fetch("https://snapcart-boue.onrender.com/api/addresses", {
         method: "POST",
         credentials: "include",
         headers: {
