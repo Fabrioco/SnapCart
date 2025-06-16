@@ -10,6 +10,9 @@ type ProtectedRouteProps = {
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { loading, user } = useCheckAuth();
+  if (!user) {
+    return null;
+  }
 
   if (loading) {
     return (
@@ -18,10 +21,6 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
         <SpinnerGapIcon size={32} weight="bold" className="animate-spin" />
       </p>
     );
-  }
-
-  if (!user.id) {
-    return null;
   }
 
   return <>{children}</>;
