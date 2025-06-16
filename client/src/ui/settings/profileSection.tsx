@@ -24,6 +24,8 @@ export function ProfileSection() {
 
   const { user } = useCheckAuth();
 
+  if (!user) return null;
+
   return (
     <section className="flex flex-col justify-center items-start gap-4">
       <h2 className="text-2xl font-semibold">Perfil</h2>
