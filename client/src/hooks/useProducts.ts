@@ -13,6 +13,7 @@ export const useProducts = () => {
         const data = await fetchAllProducts();
         setProducts(data);
       } catch (err) {
+        console.error(err);
         setError("Erro ao carregar produtos");
       } finally {
         setLoading(false);

@@ -26,7 +26,7 @@ export default function ResetPasswordPage() {
       setLoading(true);
 
       const res = await fetch(
-        "http://localhost:5000/api/users/reset-password" + `/${token}`,
+        "https://snapcart-boue.onrender.com/api/users/reset-password" + `/${token}`,
         {
           method: "PATCH",
           headers: {

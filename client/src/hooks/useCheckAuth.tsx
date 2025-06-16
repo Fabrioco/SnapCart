@@ -8,7 +8,7 @@ export const useCheckAuth = () => {
 
   const fetchUser = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/user", {
+      const response = await fetch("https://snapcart-boue.onrender.com/api/user", {
         method: "GET",
         credentials: "include",
         headers: {

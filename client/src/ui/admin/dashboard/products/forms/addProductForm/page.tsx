@@ -14,7 +14,7 @@ export function AddProductForm() {
   });
 
   const fetchProducts = async () => {
-    const res = await fetch("http://localhost:5000/api/products", {
+    const res = await fetch("https://snapcart-boue.onrender.com/api/products", {
       method: "GET",
       credentials: "include",
     });
@@ -53,7 +53,7 @@ export function AddProductForm() {
       const priceFormatted = product.price.toString().replace(",", ".");
       product.price = Number(priceFormatted);
 
-      const res = await fetch("http://localhost:5000/api/products", {
+      const res = await fetch("https://snapcart-boue.onrender.com/api/products", {
         method: "POST",
         credentials: "include",
         headers: {

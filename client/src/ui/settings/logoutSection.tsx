@@ -6,7 +6,7 @@ export function LogoutSection() {
   const router = useRouter();
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/users/logout", {
+      const response = await fetch("https://snapcart-boue.onrender.com/api/users/logout", {
         method: "POST",
         credentials: "include",
         headers: {
