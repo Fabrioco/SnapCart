@@ -19,7 +19,7 @@ export function OrderList({
 
   const fetchOrders = useCallback(async () => {
     try {
-      const orderResponse = await fetch("https://snapcart-boue.onrender.com/api/orders", {
+      const orderResponse = await fetch("http://localhost:5000/api/orders", {
         cache: "no-cache",
         headers: {
           "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export function OrderList({
       const fetchOrdersWithUserAndAddress = await Promise.all(
         orders.map(async (order: OrderType) => {
           const userResponse = await fetch(
-            `https://snapcart-boue.onrender.com/api/users/${order.userId}`,
+            `http://localhost:5000/api/users/${order.userId}`,
             {
               cache: "no-cache",
               headers: {
@@ -45,7 +45,7 @@ export function OrderList({
           const user = await userResponse.json();
 
           const addressResponse = await fetch(
-            `https://snapcart-boue.onrender.com/api/addresses/${order.addressId}`,
+            `http://localhost:5000/api/addresses/${order.addressId}`,
             {
               cache: "no-cache",
               headers: {
@@ -58,7 +58,7 @@ export function OrderList({
           const address = await addressResponse.json();
 
           const productsResponse = await fetch(
-            `https://snapcart-boue.onrender.com/api/products`,
+            `http://localhost:5000/api/products`,
             {
               cache: "no-cache",
               headers: {

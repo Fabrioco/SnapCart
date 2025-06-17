@@ -14,7 +14,7 @@ export default function UpdateProductForm() {
   const [products, setProducts] = useState<ProductType[]>([]);
 
   const fetchProducts = async () => {
-    const res = await fetch("https://snapcart-boue.onrender.com/api/products", {
+    const res = await fetch("http://localhost:5000/api/products", {
       method: "GET",
       credentials: "include",
     });
@@ -42,7 +42,7 @@ export default function UpdateProductForm() {
       });
       return;
     }
-    const res = await fetch(`https://snapcart-boue.onrender.com/api/products/${id}`, {
+    const res = await fetch(`http://localhost:5000/api/products/${id}`, {
       method: "GET",
       credentials: "include",
     });
@@ -71,7 +71,7 @@ export default function UpdateProductForm() {
     if (product.image) dataToUpdate.image = product.image;
 
     const res = await fetch(
-      `https://snapcart-boue.onrender.com/api/products/${product.id}`,
+      `http://localhost:5000/api/products/${product.id}`,
       {
         method: "PATCH",
         credentials: "include",
@@ -100,7 +100,10 @@ export default function UpdateProductForm() {
       className="flex flex-col gap-4 w-full h-auto"
     >
       <fieldset className="flex flex-col gap-1 px-2 text-lg">
-        <legend id="update-product-form-title" className="text-xl font-semibold">
+        <legend
+          id="update-product-form-title"
+          className="text-xl font-semibold"
+        >
           Atualizar Produto
         </legend>
         <label htmlFor="updateProductId">ID do Produto</label>
@@ -183,4 +186,3 @@ export default function UpdateProductForm() {
     </form>
   );
 }
-

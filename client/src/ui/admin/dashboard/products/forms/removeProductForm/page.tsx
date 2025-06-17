@@ -17,7 +17,7 @@ export default function RemoveProductForm() {
 
     try {
       const res = await fetch(
-        `https://snapcart-boue.onrender.com/api/products/${productId}`,
+        `http://localhost:5000/api/products/${productId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -35,7 +35,7 @@ export default function RemoveProductForm() {
   };
 
   const fetchProducts = async () => {
-    const res = await fetch("https://snapcart-boue.onrender.com/api/products", {
+    const res = await fetch("http://localhost:5000/api/products", {
       method: "GET",
       credentials: "include",
     });
@@ -58,7 +58,10 @@ export default function RemoveProductForm() {
       className="flex flex-col gap-4 w-full h-auto"
     >
       <fieldset className="flex flex-col gap-1 px-2 text-lg">
-        <legend id="remove-product-form-title" className="text-xl font-semibold">
+        <legend
+          id="remove-product-form-title"
+          className="text-xl font-semibold"
+        >
           Remover Produto
         </legend>
         <label htmlFor="removeProductId">ID do Produto</label>
@@ -86,4 +89,3 @@ export default function RemoveProductForm() {
     </form>
   );
 }
-

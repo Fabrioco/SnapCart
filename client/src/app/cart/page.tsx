@@ -41,7 +41,7 @@ export default function CartPage() {
     }
 
     const response = await fetch(
-      "https://snapcart-boue.onrender.com/api/stripe/card",
+      "http://localhost:5000/api/stripe/card",
       {
         method: "POST",
         credentials: "include",

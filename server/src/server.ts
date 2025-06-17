@@ -18,8 +18,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://e-commerce-snap-cart.vercel.app/",
+    origin: "http://localhost:3000",
     credentials: true,
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Set-Cookie"],
   })
 );
 app.use(express.json());

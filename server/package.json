@@ -7,10 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --fix",
     "format": "prettier --write .",
-    "dev": "ts-node-dev src/index.ts",
-    "build": "npm install && tsc",
     "start": "node dist/server.js",
-    "prisma:generate": "prisma generate"
+    "dev": "nodemon src/server.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

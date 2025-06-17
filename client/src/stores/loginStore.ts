@@ -54,7 +54,7 @@ export const useLoginStore = create<LoginState>()(
           set({ loading: true, error: "" });
 
           const response = await fetch(
-            "https://snapcart-boue.onrender.com/api/users/login",
+            "http://localhost:5000/api/users/login",
             {
               method: "POST",
               headers: {

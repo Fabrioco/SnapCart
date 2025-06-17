@@ -18,7 +18,7 @@ export default function ForgotPasswordPage() {
       setLoading(true);
 
       const res = await fetch(
-        "https://snapcart-boue.onrender.com/api/users/forgot-password",
+        "http://localhost:5000/api/users/forgot-password",
         {
           method: "POST",
           headers: {

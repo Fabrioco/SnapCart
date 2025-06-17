@@ -19,7 +19,7 @@ export function AddressSection() {
   const [addresses, setAddresses] = useState<AddressType[]>([]);
 
   const fetchAddress = async () => {
-    const response = await fetch("https://snapcart-boue.onrender.com/api/addresses", {
+    const response = await fetch("http://localhost:5000/api/addresses", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -59,10 +59,16 @@ export function AddressSection() {
               {address.state} - {address.country}, {address.type}
             </p>
             <div className="flex gap-2">
-              <button onClick={() => setIsOpen({ ...isOpen, edit: true })} className="text-blue-600 cursor-pointer">
+              <button
+                onClick={() => setIsOpen({ ...isOpen, edit: true })}
+                className="text-blue-600 cursor-pointer"
+              >
                 Editar
               </button>
-              <button onClick={() => setIsOpen({ ...isOpen, remove: true })} className="text-red-600 cursor-pointer">
+              <button
+                onClick={() => setIsOpen({ ...isOpen, remove: true })}
+                className="text-red-600 cursor-pointer"
+              >
                 Remover
               </button>
             </div>

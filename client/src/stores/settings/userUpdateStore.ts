@@ -17,7 +17,10 @@ type UserUpdateState = {
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
   formatPhone: (phone: string) => string;
-  handleUpdateUser: (e: React.FormEvent<HTMLFormElement>, id: number) => Promise<void>;
+  handleUpdateUser: (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => Promise<void>;
 };
 
 export const useUserUpdateStore = create<UserUpdateState>((set, get) => ({
@@ -58,17 +61,14 @@ export const useUserUpdateStore = create<UserUpdateState>((set, get) => ({
     try {
       set({ loading: true });
 
-      const response = await fetch(
-        `https://snapcart-boue.onrender.com/api/users/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(dataToUpdate),
-        }
-      );
+      const response = await fetch(`http://localhost:5000/api/users/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(dataToUpdate),
+      });
 
       if (!response.ok) {
         throw new Error("Erro ao atualizar dados");
@@ -84,5 +84,4 @@ export const useUserUpdateStore = create<UserUpdateState>((set, get) => ({
       set({ loading: false });
     }
   },
-  
 }));

@@ -64,7 +64,7 @@ export const useAddressEditStore = create<AddressEditStore>((set, get) => ({
       if (get().country) dataToUpdate.country = get().country;
       if (get().type) dataToUpdate.type = get().type;
 
-      const res = await fetch(`https://snapcart-boue.onrender.com/api/addresses/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/addresses/${id}`, {
         method: "PATCH",
         credentials: "include",
         headers: {

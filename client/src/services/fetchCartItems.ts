@@ -2,7 +2,7 @@ import { CartItemType } from "@/types/cartItemType";
 
 export const fetchCartItems = async () => {
   try {
-    const response = await fetch("https://snapcart-boue.onrender.com/api/cart-items", {
+    const response = await fetch("http://localhost:5000/api/cart-items", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -17,7 +17,7 @@ export const fetchCartItems = async () => {
     const data: CartItemType[] = await response.json();
     const productsPromises = data.map(async (item) => {
       const productResponse = await fetch(
-        `https://snapcart-boue.onrender.com/api/products/${item.productId}`,
+        `http://localhost:5000/api/products/${item.productId}`,
         {
           method: "GET",
           credentials: "include",
