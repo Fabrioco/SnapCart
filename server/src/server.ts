@@ -16,13 +16,12 @@ dotenv.config();
 const PORT = process.env.PORT;
 const app = express();
 
-const corsOptions = {
-  origin: ["https://e-commerce-snap-cart.vercel.app/", "http://localhost:3000"],
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
