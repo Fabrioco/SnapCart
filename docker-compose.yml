@@ -3,6 +3,7 @@ version: "3.8"
 services:
   client:
     build: ./client
+    container_name: client
     restart: always
     ports:
       - "3000:3000"
@@ -32,12 +33,13 @@ services:
       - GOOGLE_PASS_KEY=${GOOGLE_PASS_KEY}
 
   db:
+    container_name: db
     image: mysql:5.7
     restart: always
     ports:
-      - "${PORT}:${PORT}"
+      - "${MYSQL_PORT}:${MYSQL_PORT}"
     env_file:
-      - ./server/.env
+      - ./.env
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
