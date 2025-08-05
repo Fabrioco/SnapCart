@@ -159,9 +159,33 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  name: 'name',
+  number: 'number',
+  email: 'email',
+  password: 'password',
+  role: 'role'
+};
+
+exports.Prisma.ProductOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description',
+  category: 'category',
+  image: 'image'
+};
+
+exports.Prisma.AddressOrderByRelevanceFieldEnum = {
+  street: 'street',
+  cep: 'cep',
+  city: 'city',
+  state: 'state',
+  country: 'country',
+  type: 'type'
+};
+
+exports.Prisma.OrderOrderByRelevanceFieldEnum = {
+  paymentId: 'paymentId',
+  orderStatus: 'orderStatus'
 };
 
 
@@ -185,7 +209,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/fabricio/fullstack/SnapCart/server/prisma/src/generated/prisma",
+      "value": "/home/fabriocode/fullstack/SnapCart/server/prisma/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -199,12 +223,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/fabricio/fullstack/SnapCart/server/prisma/schema.prisma",
+    "sourceFilePath": "/home/fabriocode/fullstack/SnapCart/server/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../..",
   "clientVersion": "6.9.0",
@@ -212,7 +235,8 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "postgresql",
+  "activeProvider": "mysql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -221,8 +245,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  name     String\n  number   String\n  email    String @unique\n  password String\n  role     String @default(\"customer\")\n\n  Address   Address[]\n  favorites Favorite[]\n  cartItems CartItem[]\n  orders    Order[]\n}\n\nmodel Product {\n  id          Int    @id @default(autoincrement())\n  name        String\n  description String\n  category    String\n  price       Float\n  image       String\n\n  favorites  Favorite[]\n  cartItems  CartItem[]\n  orderItems OrderItem[]\n}\n\nmodel Address {\n  id      Int    @id @default(autoincrement())\n  userId  Int\n  street  String\n  number  Int\n  cep     String\n  city    String\n  state   String\n  country String\n  type    String @default(\"home\")\n\n  user  User    @relation(fields: [userId], references: [id])\n  order Order[]\n}\n\nmodel Favorite {\n  id        Int @id @default(autoincrement())\n  userId    Int\n  productId Int\n\n  user    User    @relation(fields: [userId], references: [id])\n  product Product @relation(fields: [productId], references: [id])\n\n  @@unique([userId, productId])\n}\n\nmodel CartItem {\n  id        Int @id @default(autoincrement())\n  userId    Int\n  productId Int\n  quantity  Int\n\n  user    User    @relation(fields: [userId], references: [id])\n  product Product @relation(fields: [productId], references: [id])\n}\n\nmodel Order {\n  id          Int         @id @default(autoincrement())\n  userId      Int\n  paymentId   String\n  total       Float\n  addressId   Int\n  createdAt   DateTime    @default(now())\n  orderStatus String\n  items       OrderItem[]\n\n  user    User    @relation(fields: [userId], references: [id])\n  address Address @relation(fields: [addressId], references: [id])\n}\n\nmodel OrderItem {\n  id        Int   @id @default(autoincrement())\n  orderId   Int\n  productId Int\n  quantity  Int\n  price     Float\n\n  order   Order   @relation(fields: [orderId], references: [id])\n  product Product @relation(fields: [productId], references: [id])\n}\n",
-  "inlineSchemaHash": "39124436f50d8925f49f54e0168d8889b6e3fce92382aed7805a9ce62dc7e822",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  name     String\n  number   String\n  email    String @unique\n  password String\n  role     String @default(\"customer\")\n\n  Address   Address[]\n  favorites Favorite[]\n  cartItems CartItem[]\n  orders    Order[]\n}\n\nmodel Product {\n  id          Int    @id @default(autoincrement())\n  name        String\n  description String\n  category    String\n  price       Float\n  image       String\n\n  favorites  Favorite[]\n  cartItems  CartItem[]\n  orderItems OrderItem[]\n}\n\nmodel Address {\n  id      Int    @id @default(autoincrement())\n  userId  Int\n  street  String\n  number  Int\n  cep     String\n  city    String\n  state   String\n  country String\n  type    String @default(\"home\")\n\n  user  User    @relation(fields: [userId], references: [id])\n  order Order[]\n}\n\nmodel Favorite {\n  id        Int @id @default(autoincrement())\n  userId    Int\n  productId Int\n\n  user    User    @relation(fields: [userId], references: [id])\n  product Product @relation(fields: [productId], references: [id])\n\n  @@unique([userId, productId])\n}\n\nmodel CartItem {\n  id        Int @id @default(autoincrement())\n  userId    Int\n  productId Int\n  quantity  Int\n\n  user    User    @relation(fields: [userId], references: [id])\n  product Product @relation(fields: [productId], references: [id])\n}\n\nmodel Order {\n  id          Int         @id @default(autoincrement())\n  userId      Int\n  paymentId   String\n  total       Float\n  addressId   Int\n  createdAt   DateTime    @default(now())\n  orderStatus String\n  items       OrderItem[]\n\n  user    User    @relation(fields: [userId], references: [id])\n  address Address @relation(fields: [addressId], references: [id])\n}\n\nmodel OrderItem {\n  id        Int   @id @default(autoincrement())\n  orderId   Int\n  productId Int\n  quantity  Int\n  price     Float\n\n  order   Order   @relation(fields: [orderId], references: [id])\n  product Product @relation(fields: [productId], references: [id])\n}\n",
+  "inlineSchemaHash": "d56a92aea64df056abd946a828982091dae0deef14ce14620cdc6c24bda09937",
   "copyEngine": true
 }
 

@@ -186,9 +186,33 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  name: 'name',
+  number: 'number',
+  email: 'email',
+  password: 'password',
+  role: 'role'
+};
+
+exports.Prisma.ProductOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description',
+  category: 'category',
+  image: 'image'
+};
+
+exports.Prisma.AddressOrderByRelevanceFieldEnum = {
+  street: 'street',
+  cep: 'cep',
+  city: 'city',
+  state: 'state',
+  country: 'country',
+  type: 'type'
+};
+
+exports.Prisma.OrderOrderByRelevanceFieldEnum = {
+  paymentId: 'paymentId',
+  orderStatus: 'orderStatus'
 };
 
 
