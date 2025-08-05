@@ -1,11 +1,50 @@
-version: "3"
+version: "3.8"
+
 services:
-  db:
-    image: postgres
+  client:
+    build: ./client
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ecommerce2025
-      POSTGRES_DB: ecommerce
     ports:
-      - "5433:5432"
+      - "3000:3000"
+    
+  server:
+    build: ./server
+    container_name: server
+    restart: always
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL="mysql://root:${MYSQL_ROOT_PASSWORD}@db:${MYSQL_PORT}/${MYSQL_DATABASE}"
+      - PORT=${PORT}
+      - NODE_ENV=development
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - GOOGLE_PASS_KEY=${GOOGLE_PASS_KEY}
+
+  db:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - ./server/.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  db:
+    driver: local
+
